@@ -125,23 +125,24 @@ public class Core implements Runnable {
 
         // draw here
         g.clearRect(0, 0, mainFrame.getCanvas().getWidth(), mainFrame.getCanvas().getHeight());
-
-        // grid
-        g.setColor(Color.LIGHT_GRAY);
-        for (int i = 0; i < mainFrame.getCanvas().getWidth(); i = i + Config.GRID_SIZE) {
-            g.drawLine(i, 0, i, mainFrame.getCanvas().getHeight());
-        }
-        for (int i = 0; i < mainFrame.getCanvas().getHeight(); i = i + Config.GRID_SIZE) {
-            g.drawLine(0, i, mainFrame.getCanvas().getWidth(), i);
-        }   
-        
+        drawGrid(g); 
         ComponentManager.render(g);
 
         // end drawing
         bs.show();
         g.dispose();
     }
-
+    
+    private void drawGrid(Graphics g) {
+        g.setColor(Color.LIGHT_GRAY);
+        for (int i = 0; i < mainFrame.getCanvas().getWidth(); i = i + Config.GRID_SIZE) {
+            g.drawLine(i, 0, i, mainFrame.getCanvas().getHeight());
+        }
+        for (int i = 0; i < mainFrame.getCanvas().getHeight(); i = i + Config.GRID_SIZE) {
+            g.drawLine(0, i, mainFrame.getCanvas().getWidth(), i);
+        }  
+    }
+    
     private void timer_1ms() {
         ComponentManager.timer_1ms();
     }

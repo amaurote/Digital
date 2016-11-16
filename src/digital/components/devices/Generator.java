@@ -58,15 +58,25 @@ public class Generator implements DeviceInterface {
 
     @Override
     public void render(Graphics g) {
-        output.render(g);
-
+        // coordinates translation
+        g.translate(x * Config.GRID_SIZE, y * Config.GRID_SIZE);
+        
+        // fill
         g.setColor(Color.WHITE);
-        g.fillRect(x * Config.GRID_SIZE, y * Config.GRID_SIZE,
-                width * Config.GRID_SIZE, height * Config.GRID_SIZE);
+        g.fillRect(0, 0, width * Config.GRID_SIZE, height * Config.GRID_SIZE);       
+        g.fillRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 
+                1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
+        
+        // outlines
         g.setColor(Color.BLACK);
-        g.drawRect(x * Config.GRID_SIZE, y * Config.GRID_SIZE,
-                width * Config.GRID_SIZE, height * Config.GRID_SIZE);
-
+        g.drawRect(0, 0, width * Config.GRID_SIZE, height * Config.GRID_SIZE);
+        g.drawRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 
+                1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
+        
+        // reset coordinates translation
+        g.translate(-x * Config.GRID_SIZE, -y * Config.GRID_SIZE);
+        
+        // label
         g.setFont(new Font("Arial", 1, 28));
         g.drawString((generatorType) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
     }
