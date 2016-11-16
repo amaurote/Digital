@@ -38,7 +38,7 @@ public class Core implements Runnable {
 
         //test
         ComponentManager.addComponent(1, 3, 3);
-        ComponentManager.addComponent(1, 4, 15);
+        ComponentManager.addComponent(2, 50, 9);
     }
 
     public synchronized void start() {

@@ -31,4 +31,8 @@ public interface DeviceInterface {
     public List<ComponentSpecialParameter> getSpecParametersList();
     
     public String getName();
+    
+    public void displayPorts(boolean allPortsVisible);
+    
+    public void displayPorts(boolean type, boolean visible);
 }

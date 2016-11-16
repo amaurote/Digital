@@ -1,5 +1,6 @@
 package digital.components;
 
+import digital.components.devices.GATE_NOT;
 import digital.components.devices.Generator;
 import digital.components.parts.Wire;
 import java.awt.Graphics;
@@ -44,6 +45,9 @@ public class ComponentManager {
         switch (type) {
             case 1:
                 devices.add(new Generator(idCount++, x, y));
+                break;
+            case 2:
+                devices.add(new GATE_NOT(idCount++, x, y));
                 break;
         }
     }

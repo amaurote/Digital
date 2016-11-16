@@ -5,16 +5,14 @@ import digital.components.ComponentSpecialParameter;
 import digital.components.DeviceInterface;
 import digital.components.parts.IOport;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author AMAUROTE
  */
-public class Generator implements DeviceInterface {
+public class GATE_NOT implements DeviceInterface {
 
     //id, position, size, name
     private final int id;
@@ -22,38 +20,25 @@ public class Generator implements DeviceInterface {
     private final int width, height;
     private final String name = "Generator";
 
-    // generator type (L / H)
-    private boolean generatorType;
-
-    // only one output port
+    // ports  
+    private final IOport input;
     private final IOport output;
 
-    // Special Parameters List
-    private final List<ComponentSpecialParameter> specParametersList;
-
-    ////////////////////////////////////////////////////////////////////////////
-    // CONSTRUCTOR
-    public Generator(int id, int x, int y) {
-        // set element. parameters
+    public GATE_NOT(int id, int x, int y) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.width = 6;
         this.height = 6;
-        this.generatorType = false;
 
-        // set output
-        output = new IOport(0, x + width + 1, y + height / 2, false);
-
-        // set specParametersList and add some
-        specParametersList = new ArrayList<>();
-        specParametersList.add(new ComponentSpecialParameter("Type L/H", 0, 0));
+        // ports
+        input = new IOport(1, x - 1, y + 3, true);
+        output = new IOport(0, x + width + 2, y + 3, false);
     }
 
     @Override
     public void update() {
-        generatorType = (specParametersList.get(0).getValue() == 1);
-        output.setState(generatorType);
+        output.setState(!input.getState());
     }
 
     @Override
@@ -61,25 +46,24 @@ public class Generator implements DeviceInterface {
         // coordinates translation
         g.translate(x * Config.GRID_SIZE, y * Config.GRID_SIZE);
 
-        // fill
+        int[] xpoints = {0, 6 * Config.GRID_SIZE, 0};
+        int[] ypoints = {0, 3 * Config.GRID_SIZE, 6 * Config.GRID_SIZE};
+        int gs = Config.GRID_SIZE;
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, width * Config.GRID_SIZE, height * Config.GRID_SIZE);
-        g.fillRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
-
-        // outlines
+        g.fillPolygon(xpoints, ypoints, 3);
+        g.fillRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);
+        g.fillOval(6 * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
         g.setColor(Color.BLACK);
-        g.drawRect(0, 0, width * Config.GRID_SIZE, height * Config.GRID_SIZE);
-        g.drawRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
+        g.drawPolygon(xpoints, ypoints, 3);
+        g.drawRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);
+        g.drawOval(6 * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
 
         // reset coordinates translation
         g.translate(-x * Config.GRID_SIZE, -y * Config.GRID_SIZE);
-
-        // label
-        g.setFont(new Font("Arial", 1, 28));
-        g.drawString((generatorType) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
-
-        // port
-        output.render(g);
+        
+        // ports
+        input.render(g);
+        output.render(g);       
     }
 
     @Override
@@ -114,12 +98,12 @@ public class Generator implements DeviceInterface {
 
     @Override
     public IOport getPort(int id) {
-        return output;
+        return (id == 1) ? input : output;
     }
 
     @Override
     public List<ComponentSpecialParameter> getSpecParametersList() {
-        return specParametersList;
+        return null;
     }
 
     @Override
@@ -129,12 +113,15 @@ public class Generator implements DeviceInterface {
 
     @Override
     public void displayPorts(boolean allPortsVisible) {
+        input.setVisible(allPortsVisible);
         output.setVisible(allPortsVisible);
     }
 
     @Override
     public void displayPorts(boolean type, boolean visible) {
-        if (!type) {
+        if(type) {
+            input.setVisible(visible);
+        } else {
             output.setVisible(visible);
         }
     }

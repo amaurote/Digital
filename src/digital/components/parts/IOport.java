@@ -1,5 +1,7 @@
 package digital.components.parts;
 
+import digital.Config;
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -23,18 +25,33 @@ public class IOport {
     // port state (true = H / false = L)
     private boolean portState;
 
+    // visibility
+    private boolean visible;
+
     public IOport(int id, int conX, int conY, boolean portType) {
         this.id = id;
+
         this.conX = conX;
         this.conY = conY;
+
         this.selectPivotX = this.conX;
         this.selectPivotY = this.conY;
+
         this.portType = portType;
+
         this.portState = false;
+
+        this.visible = false;
     }
 
-    public void render(Graphics g) {           
-        //TODO render if selected... maybe...
+    public void render(Graphics g) {
+        int gs = Config.GRID_SIZE;
+
+        if (visible) {
+            g.setColor((portType) ? Color.BLUE : Color.RED);
+            g.drawRect((selectPivotX - 1) * gs, (selectPivotY - 1) * gs,
+                    2 * gs, 2 * gs);
+        }
     }
 
     public void setConPosition(int x, int y) {
@@ -50,5 +67,13 @@ public class IOport {
 
     public void setState(boolean state) {
         portState = state;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean getState() {
+        return portState;
     }
 }
