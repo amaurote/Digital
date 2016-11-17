@@ -27,11 +27,18 @@ public class ComponentManager {
         for (DeviceInterface device : devices) {
             device.update();
         }
+        for (Wire wire : wires) {
+            wire.update();
+        }
+        
     }
 
     public static void render(Graphics g) {
         for (DeviceInterface device : devices) {
             device.render(g);
+        }
+        for (Wire wire : wires) {
+            wire.render(g);
         }
     }
 
@@ -50,5 +57,18 @@ public class ComponentManager {
                 devices.add(new GATE_NOT(idCount++, x, y));
                 break;
         }
+    }
+
+    public static DeviceInterface getComponent(int id) {
+        for (DeviceInterface device : devices) {
+            if (device.getID() == id) {
+                return device;
+            }
+        }
+        return null;
+    }
+    
+    public static List<Wire> getWireList() {
+        return wires;
     }
 }

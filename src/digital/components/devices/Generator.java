@@ -114,6 +114,7 @@ public class Generator implements DeviceInterface {
 
     @Override
     public IOport getPort(int id) {
+        // there is only one port, id doesnt matter
         return output;
     }
 

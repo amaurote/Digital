@@ -98,6 +98,7 @@ public class GATE_NOT implements DeviceInterface {
 
     @Override
     public IOport getPort(int id) {
+        // there are only two ports, id doesnt matter
         return (id == 1) ? input : output;
     }
 
