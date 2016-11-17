@@ -39,7 +39,6 @@ public class GATE_NOT implements DeviceInterface {
     @Override
     public void update() {
         output.setState(!input.getState());
-        System.out.println(output.getState());
     }
 
     @Override

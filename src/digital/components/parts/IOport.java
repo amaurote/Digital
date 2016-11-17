@@ -76,4 +76,12 @@ public class IOport {
     public boolean getState() {
         return portState;
     }
+    
+    public int getConX() {
+        return conX;
+    }
+    
+    public int getConY() {
+        return conY;
+    }
 }

@@ -1,7 +1,9 @@
 package digital.components.parts;
 
+import digital.Config;
 import digital.components.ComponentManager;
 import digital.components.DeviceInterface;
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -10,11 +12,11 @@ import java.awt.Graphics;
  */
 public class Wire {
 
-    // from
+    // from (left)
     private int outComponentId;
     private int outPortId;
 
-    // to
+    // to (right)
     private int inComponentId;
     private int inPortId;
 
@@ -27,25 +29,36 @@ public class Wire {
         this.outPortId = outPortId;
         this.inComponentId = inComponentId;
         this.inPortId = inPortId;
-
-        this.wrapped = false; //TODO
     }
 
     public void update() {
-        DeviceInterface output = ComponentManager.getComponent(outComponentId);
-        DeviceInterface input = ComponentManager.getComponent(inComponentId);
+        DeviceInterface leftEnd = ComponentManager.getComponent(outComponentId);
+        DeviceInterface rightEnd = ComponentManager.getComponent(inComponentId);
 
-        if (output == null || input == null) {
+        if (leftEnd == null || rightEnd == null) {
             removeWire();
-        } else if (output.getPort(outPortId) == null || input.getPort(inPortId) == null) {
+        } else if (leftEnd.getPort(outPortId) == null || rightEnd.getPort(inPortId) == null) {
             removeWire();
         } else {
-            input.getPort(inPortId).setState(output.getPort(outPortId).getState());
+            rightEnd.getPort(inPortId).setState(leftEnd.getPort(outPortId).getState());
         }
     }
 
     public void render(Graphics g) {
-        //TODO
+        DeviceInterface leftEnd = ComponentManager.getComponent(outComponentId);
+        DeviceInterface rightEnd = ComponentManager.getComponent(inComponentId);
+        int lX = leftEnd.getPort(outPortId).getConX();
+        int lY = leftEnd.getPort(outPortId).getConY();
+        int rX = rightEnd.getPort(inPortId).getConX();
+        int rY = rightEnd.getPort(inPortId).getConY();
+        int gs = Config.GRID_SIZE;
+
+        if (Config.WIRE_APPERANCE_WRAPPED) {
+            //TODO
+        } else {
+            g.setColor(Color.red);
+            g.drawLine(lX * gs, lY * gs, rX * gs, rY * gs);
+        }
     }
 
     public void removeWire() {
