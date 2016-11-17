@@ -31,10 +31,10 @@ public class ComponentSpecialParameter {
     public void setValue(int value) {
         switch (parameterType) {
             case 0:
-                this.value = (parameterType <= 0) ? 0 : 1;
+                this.value = (value <= 0) ? 0 : 1;
                 break;
             case 1:
-                this.value = (parameterType <= 0) ? 0 : value;
+                this.value = (value <= 0) ? 0 : value;
                 break;
             default:
                 parameterType = 1;

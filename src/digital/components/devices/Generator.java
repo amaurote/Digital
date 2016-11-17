@@ -40,7 +40,6 @@ public class Generator implements DeviceInterface {
         this.y = y;
         this.width = 6;
         this.height = 6;
-        this.generatorType = false;
 
         // set output
         output = new IOport(0, x + width + 1, y + height / 2, false);

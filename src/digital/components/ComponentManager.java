@@ -58,6 +58,10 @@ public class ComponentManager {
                 break;
         }
     }
+    
+    public static void addWire(int outComponentId, int outPortId, int inComponentId, int inPortId) {
+        wires.add(new Wire(outComponentId, outPortId, inComponentId, inPortId));
+    }
 
     public static DeviceInterface getComponent(int id) {
         for (DeviceInterface device : devices) {
