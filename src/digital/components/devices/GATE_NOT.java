@@ -18,7 +18,7 @@ public class GATE_NOT implements DeviceInterface {
     private final int id;
     private int x, y;
     private final int width, height;
-    private final String name = "Generator";
+    private final String name = "Gate NOT";
 
     // ports  
     private final IOport input;

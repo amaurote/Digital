@@ -29,7 +29,7 @@ public class Generator implements DeviceInterface {
     private final IOport output;
 
     // Special Parameters List
-    private final List<ComponentSpecialParameter> specParametersList;
+    private final List<ComponentSpecialParameter> specParameterList;
 
     ////////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR
@@ -44,15 +44,15 @@ public class Generator implements DeviceInterface {
         // set output
         output = new IOport(0, x + width + 1, y + height / 2, false);
 
-        // set specParametersList and add some
-        specParametersList = new ArrayList<>();
-        specParametersList.add(new ComponentSpecialParameter("Type L/H", 0, 0));
+        // set specParameterList and add some
+        specParameterList = new ArrayList<>();
+        specParameterList.add(new ComponentSpecialParameter("Type L/H", 0, 0));
     }
 
     @Override
     public void update() {
         output.update();
-        generatorType = (specParametersList.get(0).getValue() == 1);
+        generatorType = (specParameterList.get(0).getValue() == 1);
         output.setState(generatorType);     
     }
 
@@ -120,7 +120,7 @@ public class Generator implements DeviceInterface {
 
     @Override
     public List<ComponentSpecialParameter> getSpecParametersList() {
-        return specParametersList;
+        return specParameterList;
     }
 
     @Override
