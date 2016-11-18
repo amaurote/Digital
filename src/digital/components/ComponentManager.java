@@ -2,6 +2,7 @@ package digital.components;
 
 import digital.components.devices.GATE_NOT;
 import digital.components.devices.Generator;
+import digital.components.devices.Monitor;
 import digital.components.parts.Wire;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -55,6 +56,9 @@ public class ComponentManager {
                 break;
             case 2:
                 devices.add(new GATE_NOT(idCount++, x, y));
+                break;
+            case 3:
+                devices.add(new Monitor(idCount++, x, y));
                 break;
         }
     }

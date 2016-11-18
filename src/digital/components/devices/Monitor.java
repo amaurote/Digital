@@ -7,33 +7,24 @@ import digital.components.parts.IOport;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author AMAUROTE
  */
-public class Generator implements DeviceInterface {
+public class Monitor implements DeviceInterface {
 
     //id, position, size, name
     private final int id;
     private int x, y;
     private final int width, height;
-    private final String name = "Generator";
+    private final String name = "Monitor";
 
-    // generator type (L / H)
-    private boolean generatorType;
+    // only one input port
+    private final IOport input;
 
-    // only one output port
-    private final IOport output;
-
-    // Special Parameters List
-    private final List<ComponentSpecialParameter> specParametersList;
-
-    ////////////////////////////////////////////////////////////////////////////
-    // CONSTRUCTOR
-    public Generator(int id, int x, int y) {
+    public Monitor(int id, int x, int y) {
         // set parameters
         this.id = id;
         this.x = x;
@@ -41,18 +32,14 @@ public class Generator implements DeviceInterface {
         this.width = 6;
         this.height = 6;
 
-        // set output
-        output = new IOport(0, x + width + 1, y + height / 2, false);
-
-        // set specParametersList and add some
-        specParametersList = new ArrayList<>();
-        specParametersList.add(new ComponentSpecialParameter("Type L/H", 0, 0));
+        // set input
+        input = new IOport(0, x - 1, y + height / 2, true);
     }
 
     @Override
     public void update() {
-        generatorType = (specParametersList.get(0).getValue() == 1);
-        output.setState(generatorType);
+        // reset
+        input.setState(false);
     }
 
     @Override
@@ -63,22 +50,23 @@ public class Generator implements DeviceInterface {
         // fill
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width * Config.GRID_SIZE, height * Config.GRID_SIZE);
-        g.fillRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
+        g.fillRect(-1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
 
         // outlines
         g.setColor(Color.BLACK);
         g.drawRect(0, 0, width * Config.GRID_SIZE, height * Config.GRID_SIZE);
-        g.drawRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
+        g.drawRect(-1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
 
         // reset coordinates translation
         g.translate(-x * Config.GRID_SIZE, -y * Config.GRID_SIZE);
 
         // label
+        g.setColor(Color.red);
         g.setFont(new Font("Arial", 1, 28));
-        g.drawString((generatorType) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
+        g.drawString((input.getState()) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
 
         // port
-        output.render(g);
+        input.render(g);
     }
 
     @Override
@@ -114,12 +102,12 @@ public class Generator implements DeviceInterface {
     @Override
     public IOport getPort(int id) {
         // there is only one port, id doesnt matter
-        return output;
+        return input;
     }
 
     @Override
     public List<ComponentSpecialParameter> getSpecParametersList() {
-        return specParametersList;
+        return null;
     }
 
     @Override
@@ -129,13 +117,14 @@ public class Generator implements DeviceInterface {
 
     @Override
     public void displayPorts(boolean allPortsVisible) {
-        output.setVisible(allPortsVisible);
+        input.setVisible(allPortsVisible);
     }
 
     @Override
     public void displayPorts(boolean type, boolean visible) {
-        if (!type) {
-            output.setVisible(visible);
+        if (type) {
+            input.setVisible(visible);
         }
     }
+
 }

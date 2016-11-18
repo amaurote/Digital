@@ -56,7 +56,7 @@ public class Wire {
         if (Config.WIRE_APPERANCE_WRAPPED) {
             //TODO
         } else {
-            g.setColor(Color.red);
+            g.setColor((leftEnd.getPort(outPortId).getState()) ? Color.red : Color.blue);
             g.drawLine(lX * gs, lY * gs, rX * gs, rY * gs);
         }
     }
