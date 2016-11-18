@@ -45,6 +45,7 @@ public class Wire {
             removeWire();
         } else {
             rightEnd.getPort(inPortId).setState(leftEnd.getPort(outPortId).getState());
+            rightEnd.getPort(inPortId).setOccupied();
         }
     }
 

@@ -28,7 +28,7 @@ public class GATE_NOT implements DeviceInterface {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.width = 6;
+        this.width = 5;
         this.height = 6;
 
         // ports
@@ -38,7 +38,9 @@ public class GATE_NOT implements DeviceInterface {
 
     @Override
     public void update() {
-        output.setState(!input.getState());
+        input.update();
+        output.update(); 
+        output.setState(!input.getState());     
     }
 
     @Override
@@ -46,17 +48,18 @@ public class GATE_NOT implements DeviceInterface {
         // coordinates translation
         g.translate(x * Config.GRID_SIZE, y * Config.GRID_SIZE);
 
-        int[] xpoints = {0, 6 * Config.GRID_SIZE, 0};
-        int[] ypoints = {0, 3 * Config.GRID_SIZE, 6 * Config.GRID_SIZE};
+        int[] xpoints = {0, width * Config.GRID_SIZE, 0};
+        int[] ypoints = {0, 3 * Config.GRID_SIZE, height * Config.GRID_SIZE};
         int gs = Config.GRID_SIZE;
+        
         g.setColor(Color.WHITE);
         g.fillPolygon(xpoints, ypoints, 3);
         g.fillRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);
-        g.fillOval(6 * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
+        g.fillOval(width * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
         g.setColor(Color.BLACK);
         g.drawPolygon(xpoints, ypoints, 3);
         g.drawRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);
-        g.drawOval(6 * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
+        g.drawOval(width * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
 
         // reset coordinates translation
         g.translate(-x * Config.GRID_SIZE, -y * Config.GRID_SIZE);

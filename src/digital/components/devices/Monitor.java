@@ -38,6 +38,8 @@ public class Monitor implements DeviceInterface {
 
     @Override
     public void update() {
+        input.update();
+        
         // reset
         input.setState(false);
     }

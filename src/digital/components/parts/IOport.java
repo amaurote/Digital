@@ -27,6 +27,9 @@ public class IOport {
 
     // visibility
     private boolean visible;
+    
+    // occupied
+    private boolean occupied;
 
     public IOport(int id, int conX, int conY, boolean portType) {
         this.id = id;
@@ -42,8 +45,15 @@ public class IOport {
         this.portState = false;
 
         this.visible = false;
+        
+        this.occupied = false;
     }
-
+    
+    public void update() {
+        // reset
+        occupied = false;
+    }
+    
     public void render(Graphics g) {
         int gs = Config.GRID_SIZE;
 
@@ -73,6 +83,10 @@ public class IOport {
         this.visible = visible;
     }
 
+    public void setOccupied() {
+        occupied = true;
+    }
+    
     public boolean getState() {
         return portState;
     }

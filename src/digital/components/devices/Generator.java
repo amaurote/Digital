@@ -51,8 +51,9 @@ public class Generator implements DeviceInterface {
 
     @Override
     public void update() {
+        output.update();
         generatorType = (specParametersList.get(0).getValue() == 1);
-        output.setState(generatorType);
+        output.setState(generatorType);     
     }
 
     @Override
