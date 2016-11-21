@@ -78,6 +78,10 @@ public class IOport {
     public void setState(boolean state) {
         portState = state;
     }
+    
+    public void switchState() {
+        portState = !portState;
+    }
 
     public void setVisible(boolean visible) {
         this.visible = visible;
