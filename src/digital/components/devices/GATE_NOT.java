@@ -55,11 +55,14 @@ public class GATE_NOT implements DeviceInterface {
 
         // coordinates translation
         g.translate(x * gs, y * gs);
-
+        
+        // fill
         g.setColor(Color.WHITE);
         g.fillPolygon(xpoints, ypoints, 3);
         g.fillRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);
         g.fillOval(width * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
+        
+        // outlines
         g.setColor(Color.BLACK);
         g.drawPolygon(xpoints, ypoints, 3);
         g.drawRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);

@@ -48,7 +48,7 @@ public class Oscillator implements DeviceInterface {
 
         // set specParameterList and add some
         specParameterList = new ArrayList<>();
-        specParameterList.add(new ComponentSpecialParameter("Frequency", 1, 2));
+        specParameterList.add(new ComponentSpecialParameter("Frequency", 1, freq));
     }
 
     @Override

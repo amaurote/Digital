@@ -15,11 +15,11 @@ import java.util.List;
  */
 public class GATE_NAND implements DeviceInterface {
 
-//id, position, size, name
+    //id, position, size, name
     private final int id;
     private int x, y;
     private final int width, height;
-    private final String name = "Gate NOT";
+    private final String name = "Gate NAND";
 
     // ports  
     private final IOport inputA;
@@ -45,7 +45,7 @@ public class GATE_NAND implements DeviceInterface {
         inputB.update();
         output.update();
 
-        output.setState((inputA.getState() != true || inputB.getState() != true));
+        output.setState((!inputA.getState() || !inputB.getState()));
     }
 
     @Override
@@ -79,7 +79,6 @@ public class GATE_NAND implements DeviceInterface {
         // label
         g.setFont(new Font("Arial", 0, 24));
         g.drawString("&", (x + 1) * gs, (y + 5) * gs);
-
     }
 
     @Override
