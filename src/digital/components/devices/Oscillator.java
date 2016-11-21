@@ -41,13 +41,14 @@ public class Oscillator implements DeviceInterface {
         this.y = y;
         this.width = 6;
         this.height = 6;
+        this.freq = 3;
 
         // set output
         output = new IOport(0, x + width + 1, y + height / 2, false);
 
         // set specParameterList and add some
         specParameterList = new ArrayList<>();
-        specParameterList.add(new ComponentSpecialParameter("Frequency", 1, 2));
+        specParameterList.add(new ComponentSpecialParameter("Frequency", 1, 3));
     }
 
     @Override
@@ -77,8 +78,9 @@ public class Oscillator implements DeviceInterface {
         g.translate(-x * Config.GRID_SIZE, -y * Config.GRID_SIZE);
 
         // label
-        g.setFont(new Font("Arial", 1, 18));
-        g.drawString(freq + " Hz", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
+        g.setFont(new Font("Arial", 0, 10));
+        g.drawString("OSC", (x + 1) * Config.GRID_SIZE, (y + 3) * Config.GRID_SIZE);
+        g.drawString(freq + "Hz", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
     }
 
     @Override

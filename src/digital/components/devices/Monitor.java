@@ -63,7 +63,7 @@ public class Monitor implements DeviceInterface {
         g.translate(-x * Config.GRID_SIZE, -y * Config.GRID_SIZE);
 
         // label
-        g.setColor(Color.red);
+        g.setColor((input.getState() ? Color.red : Color.blue));
         g.setFont(new Font("Arial", 1, 28));
         g.drawString((input.getState()) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
 
