@@ -1,4 +1,4 @@
-package digital.components.parts;
+package digital.components.parts.ports;
 
 import digital.Config;
 import java.awt.Color;
@@ -8,10 +8,20 @@ import java.awt.Graphics;
  *
  * @author AMAUROTE
  */
-public class Output extends IOport {
+public class Input extends IOport {
 
-    public Output(int id, int conX, int conY) {
+    private boolean occupied;
+
+    public Input(int id, int conX, int conY) {
         super(id, conX, conY);
+
+        occupied = false;
+    }
+
+    @Override
+    public void update() {
+        // reset
+        occupied = false;
     }
 
     @Override
@@ -24,8 +34,10 @@ public class Output extends IOport {
                     2 * gs, 2 * gs);
         }
     }
-    
-    public void switchState() {
-        portState = !portState;
+
+    @Override
+    public void setOccupied() {
+        occupied = true;
     }
+
 }

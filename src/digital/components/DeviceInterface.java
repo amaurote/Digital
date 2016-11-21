@@ -1,6 +1,6 @@
 package digital.components;
 
-import digital.components.parts.IOport;
+import digital.components.parts.ports.IOport;
 import java.awt.Graphics;
 import java.util.List;
 

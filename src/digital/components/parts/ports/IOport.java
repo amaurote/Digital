@@ -1,4 +1,4 @@
-package digital.components.parts;
+package digital.components.parts.ports;
 
 import java.awt.Graphics;
 
@@ -60,7 +60,7 @@ public class IOport {
         portState = state;
     }
     
-    void setOccupied() {
+    public void setOccupied() {
         // used only by input
     }
 

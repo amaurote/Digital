@@ -3,8 +3,8 @@ package digital.components.devices;
 import digital.Config;
 import digital.components.ComponentSpecialParameter;
 import digital.components.DeviceInterface;
-import digital.components.parts.IOport;
-import digital.components.parts.Output;
+import digital.components.parts.ports.IOport;
+import digital.components.parts.ports.Output;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -20,7 +20,7 @@ public class Oscillator implements DeviceInterface {
     //id, position, size, name
     private final int id;
     private int x, y;
-    private final int width, height;
+    private final int width, height; // width and height are useful to determine selectable area
     private final String name = "Oscilator";
 
     // oscilator frequency
@@ -67,12 +67,12 @@ public class Oscillator implements DeviceInterface {
 
         // fill
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, width * Config.GRID_SIZE, height * Config.GRID_SIZE);
+        g.fillRect(0, 0, 6 * Config.GRID_SIZE, 6 * Config.GRID_SIZE);
         g.fillRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
 
         // outlines
         g.setColor(Color.BLACK);
-        g.drawRect(0, 0, width * Config.GRID_SIZE, height * Config.GRID_SIZE);
+        g.drawRect(0, 0, 6 * Config.GRID_SIZE, 6 * Config.GRID_SIZE);
         g.drawRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
 
         // reset coordinates translation

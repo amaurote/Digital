@@ -3,8 +3,8 @@ package digital.components.devices;
 import digital.Config;
 import digital.components.ComponentSpecialParameter;
 import digital.components.DeviceInterface;
-import digital.components.parts.IOport;
-import digital.components.parts.Output;
+import digital.components.parts.ports.IOport;
+import digital.components.parts.ports.Output;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -20,7 +20,7 @@ public class Generator implements DeviceInterface {
     //id, position, size, name
     private final int id;
     private int x, y;
-    private final int width, height;
+    private final int width, height; // width and height are useful to determine selectable area
     private final String name = "Generator";
 
     // generator type (L / H)
