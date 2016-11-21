@@ -4,6 +4,7 @@ import digital.Config;
 import digital.components.ComponentSpecialParameter;
 import digital.components.DeviceInterface;
 import digital.components.parts.IOport;
+import digital.components.parts.Input;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -22,8 +23,10 @@ public class Monitor implements DeviceInterface {
     private final String name = "Monitor";
 
     // only one input port
-    private final IOport input;
-
+    private final Input input;
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // CONSTRUCTOR
     public Monitor(int id, int x, int y) {
         // set parameters
         this.id = id;
@@ -33,7 +36,7 @@ public class Monitor implements DeviceInterface {
         this.height = 6;
 
         // set input
-        input = new IOport(0, x - 1, y + height / 2, true);
+        input = new Input(0, x - 1, y + height / 2);
     }
 
     @Override

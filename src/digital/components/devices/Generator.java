@@ -4,6 +4,7 @@ import digital.Config;
 import digital.components.ComponentSpecialParameter;
 import digital.components.DeviceInterface;
 import digital.components.parts.IOport;
+import digital.components.parts.Output;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -26,7 +27,7 @@ public class Generator implements DeviceInterface {
     private boolean generatorType;
 
     // only one output port
-    private final IOport output;
+    private final Output output;
 
     // Special Parameters List
     private final List<ComponentSpecialParameter> specParameterList;
@@ -42,7 +43,7 @@ public class Generator implements DeviceInterface {
         this.height = 6;
 
         // set output
-        output = new IOport(0, x + width + 1, y + height / 2, false);
+        output = new Output(0, x + width + 1, y + height / 2);
 
         // set specParameterList and add some
         specParameterList = new ArrayList<>();

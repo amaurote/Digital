@@ -4,6 +4,8 @@ import digital.Config;
 import digital.components.ComponentSpecialParameter;
 import digital.components.DeviceInterface;
 import digital.components.parts.IOport;
+import digital.components.parts.Input;
+import digital.components.parts.Output;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
@@ -21,9 +23,11 @@ public class GATE_NOT implements DeviceInterface {
     private final String name = "Gate NOT";
 
     // ports  
-    private final IOport input;
-    private final IOport output;
-
+    private final Input input;
+    private final Output output;
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // CONSTRUCTOR
     public GATE_NOT(int id, int x, int y) {
         this.id = id;
         this.x = x;
@@ -32,8 +36,8 @@ public class GATE_NOT implements DeviceInterface {
         this.height = 6;
 
         // ports
-        input = new IOport(1, x - 1, y + 3, true);
-        output = new IOport(0, x + width + 2, y + 3, false);
+        input = new Input(1, x - 1, y + 3);
+        output = new Output(0, x + width + 2, y + 3);
     }
 
     @Override

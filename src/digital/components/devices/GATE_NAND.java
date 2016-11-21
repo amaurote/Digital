@@ -4,6 +4,8 @@ import digital.Config;
 import digital.components.ComponentSpecialParameter;
 import digital.components.DeviceInterface;
 import digital.components.parts.IOport;
+import digital.components.parts.Input;
+import digital.components.parts.Output;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -22,10 +24,12 @@ public class GATE_NAND implements DeviceInterface {
     private final String name = "Gate NAND";
 
     // ports  
-    private final IOport inputA;
-    private final IOport inputB;
-    private final IOport output;
-
+    private final Input inputA;
+    private final Input inputB;
+    private final Output output;
+    
+    ////////////////////////////////////////////////////////////////////////////
+    // CONSTRUCTOR
     public GATE_NAND(int id, int x, int y) {
         this.id = id;
         this.x = x;
@@ -34,9 +38,9 @@ public class GATE_NAND implements DeviceInterface {
         this.height = 6;
 
         // ports
-        inputA = new IOport(1, x - 1, y + 1, true);
-        inputB = new IOport(1, x - 1, y + 5, true);
-        output = new IOport(0, x + width + 2, y + 3, false);
+        inputA = new Input(1, x - 1, y + 1);
+        inputB = new Input(1, x - 1, y + 5);
+        output = new Output(0, x + width + 2, y + 3);
     }
 
     @Override

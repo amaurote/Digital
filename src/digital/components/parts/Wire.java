@@ -15,13 +15,13 @@ public class Wire {
     // from (left)
     private int outComponentId;
     private int outPortId;
-    
+
     DeviceInterface leftEnd;
 
     // to (right)
     private int inComponentId;
     private int inPortId;
-    
+
     DeviceInterface rightEnd;
 
     // apperance
@@ -33,13 +33,13 @@ public class Wire {
         this.outPortId = outPortId;
         this.inComponentId = inComponentId;
         this.inPortId = inPortId;
-        
+
         leftEnd = ComponentManager.getComponent(outComponentId);
         rightEnd = ComponentManager.getComponent(inComponentId);
     }
 
     public void update() {
-    if (leftEnd == null || rightEnd == null) {
+        if (leftEnd == null || rightEnd == null) {
             removeWire();
         } else if (leftEnd.getPort(outPortId) == null || rightEnd.getPort(inPortId) == null) {
             removeWire();
