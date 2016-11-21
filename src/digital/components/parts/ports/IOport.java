@@ -1,5 +1,6 @@
 package digital.components.parts.ports;
 
+import digital.Config;
 import java.awt.Graphics;
 
 /**
@@ -38,11 +39,15 @@ public class IOport {
     }
 
     public void update() {
-        
+
     }
 
     public void render(Graphics g) {
-        
+        int gs = Config.GRID_SIZE;
+
+        if (!visible) {
+            g.drawRect((selectPivotX - 1) * gs, (selectPivotY - 1) * gs, 2 * gs, 2 * gs);
+        }
     }
 
     public void setConPosition(int x, int y) {
@@ -59,7 +64,7 @@ public class IOport {
     public void setState(boolean state) {
         portState = state;
     }
-    
+
     public void setOccupied() {
         // used only by input
     }
@@ -78,5 +83,5 @@ public class IOport {
 
     public int getConY() {
         return conY;
-    } 
+    }
 }

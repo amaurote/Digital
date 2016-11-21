@@ -26,13 +26,8 @@ public class Input extends IOport {
 
     @Override
     public void render(Graphics g) {
-        int gs = Config.GRID_SIZE;
-
-        if (visible) {
-            g.setColor(Color.green);
-            g.drawRect((selectPivotX - 1) * gs, (selectPivotY - 1) * gs,
-                    2 * gs, 2 * gs);
-        }
+        g.setColor(Color.green);
+        super.render(g);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package digital.components.parts.ports;
 
-import digital.Config;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -16,13 +15,8 @@ public class Output extends IOport {
 
     @Override
     public void render(Graphics g) {
-        int gs = Config.GRID_SIZE;
-
-        if (visible) {
-            g.setColor(Color.green);
-            g.drawRect((selectPivotX - 1) * gs, (selectPivotY - 1) * gs,
-                    2 * gs, 2 * gs);
-        }
+        g.setColor(Color.yellow);
+        super.render(g);
     }
     
     public void switchState() {
