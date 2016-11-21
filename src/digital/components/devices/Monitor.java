@@ -46,6 +46,8 @@ public class Monitor implements DeviceInterface {
 
     @Override
     public void render(Graphics g) {
+        input.render(g);
+
         // coordinates translation
         g.translate(x * Config.GRID_SIZE, y * Config.GRID_SIZE);
 
@@ -65,10 +67,7 @@ public class Monitor implements DeviceInterface {
         // label
         g.setColor((input.getState() ? Color.red : Color.blue));
         g.setFont(new Font("Arial", 1, 28));
-        g.drawString((input.getState()) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
-
-        // port
-        input.render(g);
+        g.drawString((input.getState()) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);    
     }
 
     @Override

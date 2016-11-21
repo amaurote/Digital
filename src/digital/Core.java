@@ -38,11 +38,15 @@ public class Core implements Runnable {
 
         //test
         ComponentManager.addComponent(1, 3, 3);
-        ComponentManager.addComponent(2, 50, 9);
+        ComponentManager.addComponent(2, 30, 9);
         ComponentManager.addComponent(3, 100, 20);
-        ComponentManager.addComponent(4, 3, 30);
-        ComponentManager.addWire(3, 0, 1, 1);
-        ComponentManager.addWire(1, 0, 2, 0);
+        ComponentManager.addComponent(4, 3, 40);
+        ComponentManager.addComponent(5, 65, 27);
+        
+        ComponentManager.addWire(0, 0, 1, 1);
+        ComponentManager.addWire(1, 0, 4, 1);
+        ComponentManager.addWire(3, 0, 4, 2);
+        ComponentManager.addWire(4, 0, 2, 1);
     }
 
     public synchronized void start() {
@@ -129,14 +133,14 @@ public class Core implements Runnable {
 
         // draw here
         g.clearRect(0, 0, mainFrame.getCanvas().getWidth(), mainFrame.getCanvas().getHeight());
-        drawGrid(g); 
+        drawGrid(g);
         ComponentManager.render(g);
 
         // end drawing
         bs.show();
         g.dispose();
     }
-    
+
     private void drawGrid(Graphics g) {
         g.setColor(Color.LIGHT_GRAY);
         for (int i = 0; i < mainFrame.getCanvas().getWidth(); i = i + Config.GRID_SIZE) {
@@ -144,9 +148,9 @@ public class Core implements Runnable {
         }
         for (int i = 0; i < mainFrame.getCanvas().getHeight(); i = i + Config.GRID_SIZE) {
             g.drawLine(0, i, mainFrame.getCanvas().getWidth(), i);
-        }  
+        }
     }
-    
+
     private void timer_1ms() {
         ComponentManager.timer_1ms();
     }

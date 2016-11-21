@@ -5,6 +5,7 @@ import digital.components.ComponentSpecialParameter;
 import digital.components.DeviceInterface;
 import digital.components.parts.IOport;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.List;
 
@@ -12,61 +13,73 @@ import java.util.List;
  *
  * @author AMAUROTE
  */
-public class GATE_NOT implements DeviceInterface {
+public class GATE_NAND implements DeviceInterface {
 
-    //id, position, size, name
+//id, position, size, name
     private final int id;
     private int x, y;
     private final int width, height;
     private final String name = "Gate NOT";
 
     // ports  
-    private final IOport input;
+    private final IOport inputA;
+    private final IOport inputB;
     private final IOport output;
 
-    public GATE_NOT(int id, int x, int y) {
+    public GATE_NAND(int id, int x, int y) {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.width = 6;
+        this.width = 5;
         this.height = 6;
 
         // ports
-        input = new IOport(1, x - 1, y + 3, true);
+        inputA = new IOport(1, x - 1, y + 1, true);
+        inputB = new IOport(1, x - 1, y + 5, true);
         output = new IOport(0, x + width + 2, y + 3, false);
     }
 
     @Override
     public void update() {
-        input.update();
+        inputA.update();
+        inputB.update();
         output.update();
 
-        output.setState(!input.getState());
+        output.setState((inputA.getState() != true || inputB.getState() != true));
     }
 
     @Override
     public void render(Graphics g) {
-        input.render(g);
+        inputA.render(g);
+        inputB.render(g);
         output.render(g);
 
         int gs = Config.GRID_SIZE;
-        int[] xpoints = {0, width * gs, 0};
-        int[] ypoints = {0, 3 * gs, height * gs};
 
         // coordinates translation
         g.translate(x * gs, y * gs);
 
+        // fill
         g.setColor(Color.WHITE);
-        g.fillPolygon(xpoints, ypoints, 3);
-        g.fillRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);
+        g.fillRect(0, 0, width * gs, height * gs);
+        g.fillRect(-1 * gs, 0 * gs, 1 * gs, 2 * gs);
+        g.fillRect(-1 * gs, 4 * gs, 1 * gs, 2 * gs);
         g.fillOval(width * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
+
+        // outlines
         g.setColor(Color.BLACK);
-        g.drawPolygon(xpoints, ypoints, 3);
-        g.drawRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);
+        g.drawRect(0, 0, width * gs, height * gs);
+        g.drawRect(-1 * gs, 0 * gs, 1 * gs, 2 * gs);
+        g.drawRect(-1 * gs, 4 * gs, 1 * gs, 2 * gs);
         g.drawOval(width * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
 
         // reset coordinates translation
         g.translate(-x * gs, -y * gs);
+
+        // label
+        g.setFont(new Font("Arial", 0, 24));
+        g.drawString("&", (x + 1) * gs, (y + 5) * gs);
+
     }
 
     @Override
@@ -101,8 +114,16 @@ public class GATE_NOT implements DeviceInterface {
 
     @Override
     public IOport getPort(int id) {
-        // there are only two ports, id doesnt matter
-        return (id == 1) ? input : output;
+        switch (id) {
+            case 0:
+                return output;
+            case 1:
+                return inputA;
+            case 2:
+                return inputB;
+            default:
+                return null;
+        }
     }
 
     @Override
@@ -117,16 +138,19 @@ public class GATE_NOT implements DeviceInterface {
 
     @Override
     public void displayPorts(boolean allPortsVisible) {
-        input.setVisible(allPortsVisible);
+        inputA.setVisible(allPortsVisible);
+        inputB.setVisible(allPortsVisible);
         output.setVisible(allPortsVisible);
     }
 
     @Override
     public void displayPorts(boolean type, boolean visible) {
         if (type) {
-            input.setVisible(visible);
+            inputA.setVisible(visible);
+            inputB.setVisible(visible);
         } else {
             output.setVisible(visible);
         }
     }
+
 }

@@ -1,5 +1,6 @@
 package digital.components;
 
+import digital.components.devices.GATE_NAND;
 import digital.components.devices.GATE_NOT;
 import digital.components.devices.Generator;
 import digital.components.devices.Monitor;
@@ -63,6 +64,10 @@ public class ComponentManager {
                 break;
             case 4:
                 devices.add(new Oscillator(idCount++, x, y));
+                break;
+            case 5:
+                devices.add(new GATE_NAND(idCount++, x, y));
+                break;
         }
     }
     

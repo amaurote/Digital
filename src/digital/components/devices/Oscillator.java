@@ -41,14 +41,14 @@ public class Oscillator implements DeviceInterface {
         this.y = y;
         this.width = 6;
         this.height = 6;
-        this.freq = 3;
+        this.freq = 2;
 
         // set output
         output = new IOport(0, x + width + 1, y + height / 2, false);
 
         // set specParameterList and add some
         specParameterList = new ArrayList<>();
-        specParameterList.add(new ComponentSpecialParameter("Frequency", 1, 3));
+        specParameterList.add(new ComponentSpecialParameter("Frequency", 1, 2));
     }
 
     @Override
