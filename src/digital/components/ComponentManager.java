@@ -3,6 +3,7 @@ package digital.components;
 import digital.components.devices.GATE_NOT;
 import digital.components.devices.Generator;
 import digital.components.devices.Monitor;
+import digital.components.devices.Oscillator;
 import digital.components.parts.Wire;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -60,6 +61,8 @@ public class ComponentManager {
             case 3:
                 devices.add(new Monitor(idCount++, x, y));
                 break;
+            case 4:
+                devices.add(new Oscillator(idCount++, x, y));
         }
     }
     

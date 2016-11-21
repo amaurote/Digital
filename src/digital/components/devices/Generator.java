@@ -52,12 +52,15 @@ public class Generator implements DeviceInterface {
     @Override
     public void update() {
         output.update();
+        
         generatorType = (specParameterList.get(0).getValue() == 1);
         output.setState(generatorType);     
     }
 
     @Override
     public void render(Graphics g) {
+        output.render(g);
+
         // coordinates translation
         g.translate(x * Config.GRID_SIZE, y * Config.GRID_SIZE);
 
@@ -76,10 +79,7 @@ public class Generator implements DeviceInterface {
 
         // label
         g.setFont(new Font("Arial", 1, 28));
-        g.drawString((generatorType) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
-
-        // port
-        output.render(g);
+        g.drawString((generatorType) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);      
     }
 
     @Override
