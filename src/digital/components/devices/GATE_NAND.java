@@ -30,7 +30,7 @@ public class GATE_NAND implements DeviceInterface {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.width = 5;
+        this.width = 6;
         this.height = 6;
 
         // ports
