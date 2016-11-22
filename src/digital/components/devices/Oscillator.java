@@ -28,15 +28,16 @@ public class Oscillator extends Device {
         this.id = id;
         this.x = x;
         this.y = y;
-        
+
         this.name = "Oscilator";
         this.width = 6;
         this.height = 6;
-        
+
         this.freq = 2;
 
         // set output
         output = new Output(0, x + width + 1, y + height / 2);
+        devicePorts.add(output);
 
         // add some specParameter
         specParameterList.add(new ComponentSpecialParameter("Frequency", 1, freq));
@@ -44,13 +45,15 @@ public class Oscillator extends Device {
 
     @Override
     public void update() {
-        output.update();
+        super.update();
+
+        // frequency update
         freq = specParameterList.get(0).getValue();
     }
 
     @Override
     public void render(Graphics g) {
-        output.render(g);
+        super.render(g);
 
         // coordinates translation
         g.translate(x * Config.GRID_SIZE, y * Config.GRID_SIZE);
@@ -88,18 +91,6 @@ public class Oscillator extends Device {
         output.move(x + width + 1, y + height / 2);
         this.x = x;
         this.y = y;
-    }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        output.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (!type) {
-            output.setVisible(visible);
-        }
     }
 
     @Override

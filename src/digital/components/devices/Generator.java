@@ -34,22 +34,25 @@ public class Generator extends Device {
 
         // set output
         output = new Output(0, x + width + 1, y + height / 2);
-
+        devicePorts.add(output);
+        
         // set specParameterList and add some
         specParameterList.add(new ComponentSpecialParameter("Type L/H", 0, 0));
+        
     }
 
     @Override
     public void update() {
-        output.update();
-
+        super.update();
+        
+        // output state update
         generatorType = (specParameterList.get(0).getValue() == 1);
         output.setState(generatorType);
     }
 
     @Override
     public void render(Graphics g) {
-        output.render(g);
+        super.render(g);
 
         // coordinates translation
         g.translate(x * Config.GRID_SIZE, y * Config.GRID_SIZE);
@@ -82,18 +85,6 @@ public class Generator extends Device {
         output.move(x + width + 1, y + height / 2);
         this.x = x;
         this.y = y;
-    }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        output.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (!type) {
-            output.setVisible(visible);
-        }
     }
 
     @Override

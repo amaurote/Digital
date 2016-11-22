@@ -29,22 +29,23 @@ public class GATE_NOT extends Device {
         this.height = 6;
 
         // ports
-        input = new Input(1, x - 1, y + 3);
         output = new Output(0, x + width + 2, y + 3);
+        input = new Input(1, x - 1, y + 3);
+        devicePorts.add(output);
+        devicePorts.add(input);     
     }
 
     @Override
     public void update() {
-        input.update();
-        output.update();
+        super.update();
 
+        // output state update
         output.setState(!input.getState());
     }
 
     @Override
     public void render(Graphics g) {
-        input.render(g);
-        output.render(g);
+        super.render(g);
 
         int gs = Config.GRID_SIZE;
         int[] xpoints = {0, width * gs, 0};
@@ -80,21 +81,6 @@ public class GATE_NOT extends Device {
         output.move(x + width + 2, y + 3);
         this.x = x;
         this.y = y;
-    }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        input.setVisible(allPortsVisible);
-        output.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (type) {
-            input.setVisible(visible);
-        } else {
-            output.setVisible(visible);
-        }
     }
 
     @Override

@@ -33,25 +33,25 @@ public class GATE_NAND extends Device {
         this.height = 6;
 
         // ports
+        output = new Output(0, x + width + 2, y + 3);
         inputA = new Input(1, x - 1, y + 1);
         inputB = new Input(1, x - 1, y + 5);
-        output = new Output(0, x + width + 2, y + 3);
+        devicePorts.add(output);
+        devicePorts.add(inputA);
+        devicePorts.add(inputB);     
     }
 
     @Override
     public void update() {
-        inputA.update();
-        inputB.update();
-        output.update();
-
+        super.update();
+        
+        // output state update
         output.setState((!inputA.getState() || !inputB.getState()));
     }
 
     @Override
     public void render(Graphics g) {
-        inputA.render(g);
-        inputB.render(g);
-        output.render(g);
+        super.render(g);
 
         int gs = Config.GRID_SIZE;
 
@@ -92,23 +92,6 @@ public class GATE_NAND extends Device {
         output.move(x + width + 2, y + 3);
         this.x = x;
         this.y = y;
-    }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        inputA.setVisible(allPortsVisible);
-        inputB.setVisible(allPortsVisible);
-        output.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (type) {
-            inputA.setVisible(visible);
-            inputB.setVisible(visible);
-        } else {
-            output.setVisible(visible);
-        }
     }
 
     @Override

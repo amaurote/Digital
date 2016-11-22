@@ -30,11 +30,12 @@ public class Monitor extends Device {
 
         // set input
         input = new Input(0, x - 1, y + height / 2);
+        devicePorts.add(input);
     }
 
     @Override
     public void update() {
-        input.update();
+        super.update();
 
         // reset
         input.setState(false);
@@ -42,7 +43,7 @@ public class Monitor extends Device {
 
     @Override
     public void render(Graphics g) {
-        input.render(g);
+        super.render(g);
 
         // coordinates translation
         g.translate(x * Config.GRID_SIZE, y * Config.GRID_SIZE);
@@ -76,18 +77,6 @@ public class Monitor extends Device {
         input.move(x - 1, y + height / 2);
         this.x = x;
         this.y = y;
-    }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        input.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (type) {
-            input.setVisible(visible);
-        }
     }
 
     @Override

@@ -2,6 +2,8 @@ package digital.components.devices;
 
 import digital.components.ComponentSpecialParameter;
 import digital.components.parts.IOport;
+import digital.components.parts.Input;
+import digital.components.parts.Output;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +22,20 @@ public abstract class Device {
 
     // Special Parameters List
     protected final List<ComponentSpecialParameter> specParameterList = new ArrayList<>();
-    protected final List<IOport> devicePorts = new ArrayList<>();
     
+    // List of IOports
+    protected final List<IOport> devicePorts = new ArrayList<>();
+
     public void update() {
+        for (IOport devicePort : devicePorts) {
+            devicePort.update();
+        }
     }
 
     public void render(Graphics g) {
+        for (IOport devicePort : devicePorts) {
+            devicePort.render(g);
+        }
     }
 
     public void timer_1ms() {
@@ -35,9 +45,21 @@ public abstract class Device {
     }
 
     public void displayPorts(boolean allPortsVisible) {
+        for (IOport devicePort : devicePorts) {
+            devicePort.setVisible(allPortsVisible);
+        }
     }
 
     public void displayPorts(boolean type, boolean visible) {
+        for (IOport devicePort : devicePorts) {
+            if (type) {
+                if (devicePort instanceof Input) {
+                    devicePort.setVisible(visible);
+                }
+            } else if (devicePort instanceof Output) {
+                devicePort.setVisible(visible);
+            }
+        }
     }
 
     public int getID() {
