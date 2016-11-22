@@ -2,26 +2,17 @@ package digital.components.devices;
 
 import digital.Config;
 import digital.components.ComponentSpecialParameter;
-import digital.components.DeviceInterface;
 import digital.components.parts.IOport;
 import digital.components.parts.Output;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author AMAUROTE
  */
-public class Oscillator implements DeviceInterface {
-
-    //id, position, size, name
-    private final int id;
-    private int x, y;
-    private final int width, height; // width and height are useful to determine selectable area
-    private final String name = "Oscilator";
+public class Oscillator extends Device {
 
     // oscilator frequency
     private int freq;
@@ -30,25 +21,24 @@ public class Oscillator implements DeviceInterface {
     // only one output port
     private final Output output;
 
-    // Special Parameters List
-    private final List<ComponentSpecialParameter> specParameterList;
-
     ////////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR
     public Oscillator(int id, int x, int y) {
-        // set parameters
+        // set parameters    
         this.id = id;
         this.x = x;
         this.y = y;
+        
+        this.name = "Oscilator";
         this.width = 6;
         this.height = 6;
+        
         this.freq = 2;
 
         // set output
         output = new Output(0, x + width + 1, y + height / 2);
 
-        // set specParameterList and add some
-        specParameterList = new ArrayList<>();
+        // add some specParameter
         specParameterList.add(new ComponentSpecialParameter("Frequency", 1, freq));
     }
 
@@ -113,43 +103,8 @@ public class Oscillator implements DeviceInterface {
     }
 
     @Override
-    public int getID() {
-        return id;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
     public IOport getPort(int id) {
         // there is only one port, id doesnt matter
         return output;
-    }
-
-    @Override
-    public List<ComponentSpecialParameter> getSpecParametersList() {
-        return specParameterList;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }

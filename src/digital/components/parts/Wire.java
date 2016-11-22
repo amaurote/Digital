@@ -2,7 +2,7 @@ package digital.components.parts;
 
 import digital.Config;
 import digital.components.ComponentManager;
-import digital.components.DeviceInterface;
+import digital.components.devices.Device;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -16,13 +16,13 @@ public class Wire {
     private int outComponentId;
     private int outPortId;
 
-    DeviceInterface leftEnd;
+    Device leftEnd;
 
     // to (right)
     private int inComponentId;
     private int inPortId;
 
-    DeviceInterface rightEnd;
+    Device rightEnd;
 
     // apperance
     private boolean wrapped;

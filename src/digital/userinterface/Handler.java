@@ -2,7 +2,7 @@ package digital.userinterface;
 
 import digital.Config;
 import digital.components.ComponentManager;
-import digital.components.DeviceInterface;
+import digital.components.devices.Device;
 
 /**
  *
@@ -10,7 +10,7 @@ import digital.components.DeviceInterface;
  */
 public class Handler {
 
-    private static DeviceInterface selected;
+    private static Device selected;
     private static int lastX;
     private static int lastY;
 
@@ -26,7 +26,7 @@ public class Handler {
         y = y / Config.GRID_SIZE;
 
         do {
-            DeviceInterface d = ComponentManager.getComponentByIndex(index);
+            Device d = ComponentManager.getComponentByIndex(index);
 
             if (d.getX() <= x && d.getY() <= y
                     && d.getX() + d.getWidth() > x && d.getY() + d.getHeight() > y) {

@@ -1,5 +1,6 @@
 package digital.components;
 
+import digital.components.devices.Device;
 import digital.components.devices.GATE_NAND;
 import digital.components.devices.GATE_NOT;
 import digital.components.devices.Generator;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class ComponentManager {
 
-    private static List<DeviceInterface> devices;
+    private static List<Device> devices;
     private static List<Wire> wires;
 
     private static int idCount = 0;
@@ -27,7 +28,7 @@ public class ComponentManager {
     }
 
     public static void update() {
-        for (DeviceInterface device : devices) {
+        for (Device device : devices) {
             device.update();
         }
         for (Wire wire : wires) {
@@ -37,7 +38,7 @@ public class ComponentManager {
     }
 
     public static void render(Graphics g) {
-        for (DeviceInterface device : devices) {
+        for (Device device : devices) {
             device.render(g);
         }
         for (Wire wire : wires) {
@@ -46,7 +47,7 @@ public class ComponentManager {
     }
 
     public static void timer_1ms() {
-        for (DeviceInterface device : devices) {
+        for (Device device : devices) {
             device.timer_1ms();
         }
     }
@@ -75,8 +76,8 @@ public class ComponentManager {
         wires.add(new Wire(outComponentId, outPortId, inComponentId, inPortId));
     }
 
-    public static DeviceInterface getComponent(int id) {
-        for (DeviceInterface device : devices) {
+    public static Device getComponent(int id) {
+        for (Device device : devices) {
             if (device.getID() == id) {
                 return device;
             }
@@ -84,7 +85,7 @@ public class ComponentManager {
         return null;
     }
 
-    public static DeviceInterface getComponentByIndex(int index) {
+    public static Device getComponentByIndex(int index) {
         if (index >= devices.size()) {
             return null;
         } else {

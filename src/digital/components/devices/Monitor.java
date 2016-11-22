@@ -1,26 +1,17 @@
 package digital.components.devices;
 
 import digital.Config;
-import digital.components.ComponentSpecialParameter;
-import digital.components.DeviceInterface;
 import digital.components.parts.IOport;
 import digital.components.parts.Input;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.List;
 
 /**
  *
  * @author AMAUROTE
  */
-public class Monitor implements DeviceInterface {
-
-    //id, position, size, name
-    private final int id;
-    private int x, y;
-    private final int width, height; // width and height are useful to determine selectable area
-    private final String name = "Monitor";
+public class Monitor extends Device {
 
     // only one input port
     private final Input input;
@@ -32,6 +23,8 @@ public class Monitor implements DeviceInterface {
         this.id = id;
         this.x = x;
         this.y = y;
+        
+        this.name = "Monitor";
         this.width = 6;
         this.height = 6;
 
@@ -98,43 +91,8 @@ public class Monitor implements DeviceInterface {
     }
 
     @Override
-    public int getID() {
-        return id;
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
     public IOport getPort(int id) {
         // there is only one port, id doesnt matter
         return input;
-    }
-
-    @Override
-    public List<ComponentSpecialParameter> getSpecParametersList() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }

@@ -2,7 +2,6 @@ package digital.components.devices;
 
 import digital.Config;
 import digital.components.ComponentSpecialParameter;
-import digital.components.DeviceInterface;
 import digital.components.parts.IOport;
 import digital.components.parts.Input;
 import digital.components.parts.Output;
@@ -15,13 +14,7 @@ import java.util.List;
  *
  * @author AMAUROTE
  */
-public class GATE_NAND implements DeviceInterface {
-
-    //id, position, size, name
-    private final int id;
-    private int x, y;
-    private final int width, height; // width and height are useful to determine selectable area
-    private final String name = "Gate NAND";
+public class GATE_NAND extends Device {
 
     // ports  
     private final Input inputA;
@@ -34,6 +27,8 @@ public class GATE_NAND implements DeviceInterface {
         this.id = id;
         this.x = x;
         this.y = y;
+        
+        this.name = "Gate NAND";
         this.width = 6;
         this.height = 6;
 
