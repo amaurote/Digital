@@ -95,6 +95,9 @@ public class MainFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jToggleWrapWiresMouseClicked(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jToggleWrapWiresMouseExited(evt);
+            }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -127,7 +130,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mainCanvasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseClicked
-        
+
     }//GEN-LAST:event_mainCanvasMouseClicked
 
     private void mainCanvasMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseDragged
@@ -160,6 +163,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButtonShowIOMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonShowIOMouseReleased
         Config.SHOW_ALL_PORTS = false;
     }//GEN-LAST:event_jButtonShowIOMouseReleased
+
+    private void jToggleWrapWiresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleWrapWiresMouseExited
+        Config.WIRE_APPERANCE_WRAPPED = jToggleWrapWires.isSelected();
+    }//GEN-LAST:event_jToggleWrapWiresMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonShowIO;
