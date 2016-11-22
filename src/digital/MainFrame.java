@@ -1,6 +1,8 @@
 package digital;
 
+import digital.userinterface.Handler;
 import java.awt.Canvas;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -8,14 +10,13 @@ import java.awt.Canvas;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-   
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {     
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -32,13 +33,12 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+
         //</editor-fold>
-        
         Core core = new Core();
         core.start();
-    } 
-    
+    }
+
     /**
      * Creates new form MainFrame
      */
@@ -85,13 +85,15 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mainCanvasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseClicked
-        // TODO add your handling code here:
+        if (evt.getButton() == MouseEvent.BUTTON1) {
+            Handler.selectComponent(evt.getX(), evt.getY());
+        }
     }//GEN-LAST:event_mainCanvasMouseClicked
-     
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Canvas mainCanvas;
     // End of variables declaration//GEN-END:variables
-    
+
     public Canvas getCanvas() {
         return mainCanvas;
     }

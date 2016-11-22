@@ -1,6 +1,7 @@
 package digital;
 
 import digital.components.ComponentManager;
+import digital.userinterface.Handler;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
@@ -35,6 +36,7 @@ public class Core implements Runnable {
 
     private void init() {
         ComponentManager.init();
+        Handler.init();
 
         //test
         ComponentManager.addComponent(1, 3, 3);

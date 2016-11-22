@@ -33,7 +33,7 @@ public class ComponentManager {
         for (Wire wire : wires) {
             wire.update();
         }
-        
+
     }
 
     public static void render(Graphics g) {
@@ -70,7 +70,7 @@ public class ComponentManager {
                 break;
         }
     }
-    
+
     public static void addWire(int outComponentId, int outPortId, int inComponentId, int inPortId) {
         wires.add(new Wire(outComponentId, outPortId, inComponentId, inPortId));
     }
@@ -83,7 +83,15 @@ public class ComponentManager {
         }
         return null;
     }
-    
+
+    public static DeviceInterface getComponentByIndex(int index) {
+        if (index >= devices.size()) {
+            return null;
+        } else {
+            return devices.get(index);
+        }
+    }
+
     public static List<Wire> getWireList() {
         return wires;
     }
