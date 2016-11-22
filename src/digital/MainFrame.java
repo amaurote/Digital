@@ -51,6 +51,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         mainCanvas = new java.awt.Canvas();
+        jButtonShowIO = new javax.swing.JButton();
+        jToggleWrapWires = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -78,21 +80,47 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jButtonShowIO.setText("IO");
+        jButtonShowIO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jButtonShowIOMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButtonShowIOMouseReleased(evt);
+            }
+        });
+
+        jToggleWrapWires.setText("Wrap Wires");
+        jToggleWrapWires.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jToggleWrapWiresMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonShowIO)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jToggleWrapWires, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mainCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(153, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonShowIO)
+                    .addComponent(jToggleWrapWires))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -121,7 +149,21 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mainCanvasMousePressed
 
+    private void jToggleWrapWiresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleWrapWiresMouseClicked
+        Config.WIRE_APPERANCE_WRAPPED = jToggleWrapWires.isSelected();
+    }//GEN-LAST:event_jToggleWrapWiresMouseClicked
+
+    private void jButtonShowIOMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonShowIOMousePressed
+        Config.SHOW_ALL_PORTS = true;
+    }//GEN-LAST:event_jButtonShowIOMousePressed
+
+    private void jButtonShowIOMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonShowIOMouseReleased
+        Config.SHOW_ALL_PORTS = false;
+    }//GEN-LAST:event_jButtonShowIOMouseReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonShowIO;
+    private javax.swing.JToggleButton jToggleWrapWires;
     private java.awt.Canvas mainCanvas;
     // End of variables declaration//GEN-END:variables
 

@@ -45,7 +45,7 @@ public class IOport {
     public void render(Graphics g) {
         int gs = Config.GRID_SIZE;
 
-        if (!visible) {
+        if (visible || Config.SHOW_ALL_PORTS) {
             g.drawRect((selectPivotX - 1) * gs, (selectPivotY - 1) * gs, 2 * gs, 2 * gs);
         }
     }

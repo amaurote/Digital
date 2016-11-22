@@ -50,17 +50,21 @@ public class Wire {
     }
 
     public void render(Graphics g) {
-        int lX = leftEnd.getPort(outPortId).getConX();
-        int lY = leftEnd.getPort(outPortId).getConY();
-        int rX = rightEnd.getPort(inPortId).getConX();
-        int rY = rightEnd.getPort(inPortId).getConY();
         int gs = Config.GRID_SIZE;
+        int lx = leftEnd.getPort(outPortId).getConX() * gs;
+        int ly = leftEnd.getPort(outPortId).getConY() * gs;
+        int rx = rightEnd.getPort(inPortId).getConX() * gs;
+        int ry = rightEnd.getPort(inPortId).getConY() * gs;
+
+        g.setColor((leftEnd.getPort(outPortId).getState()) ? Color.red : Color.blue);
 
         if (Config.WIRE_APPERANCE_WRAPPED) {
-            //TODO
+            int distance = rx - lx;
+            g.drawLine(lx, ly, lx + distance / 2, ly);
+            g.drawLine(lx + distance / 2, ly, lx + distance / 2, ry);
+            g.drawLine(lx + distance / 2, ry, rx, ry);
         } else {
-            g.setColor((leftEnd.getPort(outPortId).getState()) ? Color.red : Color.blue);
-            g.drawLine(lX * gs, lY * gs, rX * gs, rY * gs);
+            g.drawLine(lx, ly, rx, ry);
         }
     }
 
