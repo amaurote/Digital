@@ -56,12 +56,15 @@ public class Handler {
                 lastX = selected.getX();
                 lastY = selected.getY();
             }
+            x /= Config.GRID_SIZE;
+            y /= Config.GRID_SIZE;
+            
             if (mouseOffsetX == 0 || mouseOffsetY == 0) {
-                mouseOffsetX = x / Config.GRID_SIZE - selected.getX();
-                mouseOffsetY = y / Config.GRID_SIZE - selected.getY();
+                mouseOffsetX = x - selected.getX();
+                mouseOffsetY = y - selected.getY();
             }
 
-            selected.move(x / Config.GRID_SIZE - mouseOffsetX, y / Config.GRID_SIZE - mouseOffsetY);
+            selected.move(x - mouseOffsetX, y - mouseOffsetY);
         }
     }
 
