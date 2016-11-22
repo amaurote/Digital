@@ -1,14 +1,12 @@
 package digital.components.devices;
 
 import digital.Config;
-import digital.components.ComponentSpecialParameter;
 import digital.components.parts.IOport;
 import digital.components.parts.Input;
 import digital.components.parts.Output;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.List;
 
 /**
  *
@@ -86,15 +84,6 @@ public class GATE_NAND extends Device {
     }
 
     @Override
-    public void move(int x, int y) {
-        inputA.move(x - 1, y + 1);
-        inputB.move(x - 1, y + 5);
-        output.move(x + width + 2, y + 3);
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
     public int getID() {
         return id;
     }
@@ -131,15 +120,5 @@ public class GATE_NAND extends Device {
             default:
                 return null;
         }
-    }
-
-    @Override
-    public List<ComponentSpecialParameter> getSpecParametersList() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }

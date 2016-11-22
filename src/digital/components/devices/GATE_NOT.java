@@ -76,14 +76,6 @@ public class GATE_NOT extends Device {
     }
 
     @Override
-    public void move(int x, int y) {
-        input.move(x - 1, y + 3);
-        output.move(x + width + 2, y + 3);
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
     public IOport getPort(int id) {
         // there are only two ports, id doesnt matter
         return (id == 1) ? input : output;

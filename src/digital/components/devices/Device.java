@@ -22,7 +22,7 @@ public abstract class Device {
 
     // Special Parameters List
     protected final List<ComponentSpecialParameter> specParameterList = new ArrayList<>();
-    
+
     // List of IOports
     protected final List<IOport> devicePorts = new ArrayList<>();
 
@@ -42,6 +42,12 @@ public abstract class Device {
     }
 
     public void move(int x, int y) {
+        for (IOport devicePort : devicePorts) {
+            devicePort.move(devicePort.getConX() - (this.x - x),
+                    devicePort.getConY() - (this.y - y));
+        }
+        this.x = x;
+        this.y = y;
     }
 
     public void displayPorts(boolean allPortsVisible) {

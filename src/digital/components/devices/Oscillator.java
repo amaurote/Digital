@@ -87,13 +87,6 @@ public class Oscillator extends Device {
     }
 
     @Override
-    public void move(int x, int y) {
-        output.move(x + width + 1, y + height / 2);
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
     public IOport getPort(int id) {
         // there is only one port, id doesnt matter
         return output;
