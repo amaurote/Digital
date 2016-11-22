@@ -91,6 +91,32 @@ public class GATE_NAND implements DeviceInterface {
     }
 
     @Override
+    public void move(int x, int y) {
+        inputA.move(x - 1, y + 1);
+        inputB.move(x - 1, y + 5);
+        output.move(x + width + 2, y + 3);
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public void displayPorts(boolean allPortsVisible) {
+        inputA.setVisible(allPortsVisible);
+        inputB.setVisible(allPortsVisible);
+        output.setVisible(allPortsVisible);
+    }
+
+    @Override
+    public void displayPorts(boolean type, boolean visible) {
+        if (type) {
+            inputA.setVisible(visible);
+            inputB.setVisible(visible);
+        } else {
+            output.setVisible(visible);
+        }
+    }
+
+    @Override
     public int getID() {
         return id;
     }
@@ -138,31 +164,4 @@ public class GATE_NAND implements DeviceInterface {
     public String getName() {
         return name;
     }
-
-    @Override
-    public void move(int x, int y) {
-        inputA.move(x - 1, y + 1);
-        inputB.move(x - 1, y + 5);
-        output.move(x + width + 2, y + 3);
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        inputA.setVisible(allPortsVisible);
-        inputB.setVisible(allPortsVisible);
-        output.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (type) {
-            inputA.setVisible(visible);
-            inputB.setVisible(visible);
-        } else {
-            output.setVisible(visible);
-        }
-    }
-
 }
