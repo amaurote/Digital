@@ -7,7 +7,7 @@ import java.awt.Graphics;
  *
  * @author AMAUROTE
  */
-public class IOport {
+public abstract class IOport {
 
     // port id
     private final int id;

@@ -24,10 +24,6 @@ public class Wire {
 
     Device rightEnd;
 
-    // apperance
-    private boolean wrapped;
-
-    // TODO xy position while moving... and which end
     public Wire(int outComponentId, int outPortId, int inComponentId, int inPortId) {
         this.outComponentId = outComponentId;
         this.outPortId = outPortId;

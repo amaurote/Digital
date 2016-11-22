@@ -13,6 +13,8 @@ public class Handler {
     private static Device selected;
     private static int lastX;
     private static int lastY;
+    private static int mouseOffsetX;
+    private static int mouseOffsetY;
 
     public static void init() {
         selected = null;
@@ -44,6 +46,8 @@ public class Handler {
         selected = null;
         lastX = -1;
         lastY = -1;
+        mouseOffsetX = 0;
+        mouseOffsetY = 0;
     }
 
     public static void move(int x, int y) {
@@ -52,8 +56,12 @@ public class Handler {
                 lastX = selected.getX();
                 lastY = selected.getY();
             }
+            if (mouseOffsetX == 0 || mouseOffsetY == 0) {
+                mouseOffsetX = x / Config.GRID_SIZE - selected.getX();
+                mouseOffsetY = y / Config.GRID_SIZE - selected.getY();
+            }
 
-            selected.move(x / Config.GRID_SIZE, y / Config.GRID_SIZE);
+            selected.move(x / Config.GRID_SIZE - mouseOffsetX, y / Config.GRID_SIZE - mouseOffsetY);
         }
     }
 
