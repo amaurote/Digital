@@ -13,4 +13,7 @@ public class Config {
     
     // WIRE
     public static boolean WIRE_APPERANCE_WRAPPED = false;
+    
+    // PORT
+    public static boolean SHOW_ALL_PORTS = false;
 }
