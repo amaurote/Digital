@@ -62,6 +62,20 @@ public class MainFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mainCanvasMouseClicked(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                mainCanvasMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                mainCanvasMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                mainCanvasMouseReleased(evt);
+            }
+        });
+        mainCanvas.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                mainCanvasMouseDragged(evt);
+            }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -85,10 +99,27 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mainCanvasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseClicked
+        
+    }//GEN-LAST:event_mainCanvasMouseClicked
+
+    private void mainCanvasMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseDragged
+        Handler.move(evt.getX(), evt.getY());
+    }//GEN-LAST:event_mainCanvasMouseDragged
+
+    private void mainCanvasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseExited
+        Handler.revertMove();
+        Handler.deselect();
+    }//GEN-LAST:event_mainCanvasMouseExited
+
+    private void mainCanvasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseReleased
+        Handler.deselect();
+    }//GEN-LAST:event_mainCanvasMouseReleased
+
+    private void mainCanvasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMousePressed
         if (evt.getButton() == MouseEvent.BUTTON1) {
             Handler.selectComponent(evt.getX(), evt.getY());
         }
-    }//GEN-LAST:event_mainCanvasMouseClicked
+    }//GEN-LAST:event_mainCanvasMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Canvas mainCanvas;

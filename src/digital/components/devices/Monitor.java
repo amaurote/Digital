@@ -24,7 +24,7 @@ public class Monitor implements DeviceInterface {
 
     // only one input port
     private final Input input;
-    
+
     ////////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR
     public Monitor(int id, int x, int y) {
@@ -42,7 +42,7 @@ public class Monitor implements DeviceInterface {
     @Override
     public void update() {
         input.update();
-        
+
         // reset
         input.setState(false);
     }
@@ -70,12 +70,31 @@ public class Monitor implements DeviceInterface {
         // label
         g.setColor((input.getState() ? Color.red : Color.blue));
         g.setFont(new Font("Arial", 1, 28));
-        g.drawString((input.getState()) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);    
+        g.drawString((input.getState()) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
     }
 
     @Override
     public void timer_1ms() {
 
+    }
+
+    @Override
+    public void move(int x, int y) {
+        input.move(x - 1, y + height / 2);
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public void displayPorts(boolean allPortsVisible) {
+        input.setVisible(allPortsVisible);
+    }
+
+    @Override
+    public void displayPorts(boolean type, boolean visible) {
+        if (type) {
+            input.setVisible(visible);
+        }
     }
 
     @Override
@@ -118,17 +137,4 @@ public class Monitor implements DeviceInterface {
     public String getName() {
         return name;
     }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        input.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (type) {
-            input.setVisible(visible);
-        }
-    }
-
 }

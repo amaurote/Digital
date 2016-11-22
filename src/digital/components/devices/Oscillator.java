@@ -87,9 +87,28 @@ public class Oscillator implements DeviceInterface {
     @Override
     public void timer_1ms() {
         // output switch state
-        if(++counter >= 1000 / freq) {            
+        if (++counter >= 1000 / freq) {
             output.switchState();
             counter = 0;
+        }
+    }
+
+    @Override
+    public void move(int x, int y) {
+        output.move(x + width + 1, y + height / 2);
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public void displayPorts(boolean allPortsVisible) {
+        output.setVisible(allPortsVisible);
+    }
+
+    @Override
+    public void displayPorts(boolean type, boolean visible) {
+        if (!type) {
+            output.setVisible(visible);
         }
     }
 
@@ -133,17 +152,4 @@ public class Oscillator implements DeviceInterface {
     public String getName() {
         return name;
     }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        output.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (!type) {
-            output.setVisible(visible);
-        }
-    }
-
 }

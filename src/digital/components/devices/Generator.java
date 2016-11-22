@@ -53,9 +53,9 @@ public class Generator implements DeviceInterface {
     @Override
     public void update() {
         output.update();
-        
+
         generatorType = (specParameterList.get(0).getValue() == 1);
-        output.setState(generatorType);     
+        output.setState(generatorType);
     }
 
     @Override
@@ -80,12 +80,31 @@ public class Generator implements DeviceInterface {
 
         // label
         g.setFont(new Font("Arial", 1, 28));
-        g.drawString((generatorType) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);      
+        g.drawString((generatorType) ? "H" : "L", (x + 1) * Config.GRID_SIZE, (y + 5) * Config.GRID_SIZE);
     }
 
     @Override
     public void timer_1ms() {
 
+    }
+
+    @Override
+    public void move(int x, int y) {
+        output.move(x + width + 1, y + height / 2);
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public void displayPorts(boolean allPortsVisible) {
+        output.setVisible(allPortsVisible);
+    }
+
+    @Override
+    public void displayPorts(boolean type, boolean visible) {
+        if (!type) {
+            output.setVisible(visible);
+        }
     }
 
     @Override
@@ -127,17 +146,5 @@ public class Generator implements DeviceInterface {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        output.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (!type) {
-            output.setVisible(visible);
-        }
     }
 }

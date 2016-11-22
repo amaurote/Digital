@@ -49,6 +49,13 @@ public class IOport {
             g.drawRect((selectPivotX - 1) * gs, (selectPivotY - 1) * gs, 2 * gs, 2 * gs);
         }
     }
+    
+    public void move(int x, int y) {
+        conX = x;
+        conY = y;
+        selectPivotX = x;
+        selectPivotY = y;
+    }
 
     public void setConPosition(int x, int y) {
         conX = x;

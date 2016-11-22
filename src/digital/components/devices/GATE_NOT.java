@@ -25,7 +25,7 @@ public class GATE_NOT implements DeviceInterface {
     // ports  
     private final Input input;
     private final Output output;
-    
+
     ////////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR
     public GATE_NOT(int id, int x, int y) {
@@ -59,13 +59,13 @@ public class GATE_NOT implements DeviceInterface {
 
         // coordinates translation
         g.translate(x * gs, y * gs);
-        
+
         // fill
         g.setColor(Color.WHITE);
         g.fillPolygon(xpoints, ypoints, 3);
         g.fillRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);
         g.fillOval(width * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
-        
+
         // outlines
         g.setColor(Color.BLACK);
         g.drawPolygon(xpoints, ypoints, 3);
@@ -79,6 +79,29 @@ public class GATE_NOT implements DeviceInterface {
     @Override
     public void timer_1ms() {
 
+    }
+
+    @Override
+    public void move(int x, int y) {
+        input.move(x - 1, y + 3);
+        output.move(x + width + 2, y + 3);
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public void displayPorts(boolean allPortsVisible) {
+        input.setVisible(allPortsVisible);
+        output.setVisible(allPortsVisible);
+    }
+
+    @Override
+    public void displayPorts(boolean type, boolean visible) {
+        if (type) {
+            input.setVisible(visible);
+        } else {
+            output.setVisible(visible);
+        }
     }
 
     @Override
@@ -120,20 +143,5 @@ public class GATE_NOT implements DeviceInterface {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public void displayPorts(boolean allPortsVisible) {
-        input.setVisible(allPortsVisible);
-        output.setVisible(allPortsVisible);
-    }
-
-    @Override
-    public void displayPorts(boolean type, boolean visible) {
-        if (type) {
-            input.setVisible(visible);
-        } else {
-            output.setVisible(visible);
-        }
     }
 }
