@@ -1,4 +1,4 @@
-package digital.components.parts.ports;
+package digital.components.parts;
 
 import digital.Config;
 import java.awt.Color;
