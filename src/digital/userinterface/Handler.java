@@ -56,6 +56,7 @@ public class Handler {
                 lastX = selected.getX();
                 lastY = selected.getY();
             }
+            
             x /= Config.GRID_SIZE;
             y /= Config.GRID_SIZE;
             
