@@ -91,13 +91,15 @@ public class Handler {
             IOport port = findPort(x, y);
             if(port != null) {
                 if(port instanceof Input) {
-                    //wire.connect(port.getId()); <- TU SOM SKONCIL, ide sa prerabat..
+                    wire.connect((Input)port);
                 } else {
                     wire.revert();
                 }
+            } else {
+                wire.setRelativeState(false);
             }
         }
-
+         
         deselect();
     }
 
