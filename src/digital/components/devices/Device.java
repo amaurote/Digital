@@ -91,6 +91,10 @@ public abstract class Device {
     public IOport getPort(int id) {
         return null;
     }
+    
+    public List<IOport> getPortList() {
+        return devicePorts;
+    }
 
     public List<ComponentSpecialParameter> getSpecParametersList() {
         return specParameterList;

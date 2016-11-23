@@ -16,4 +16,6 @@ public class Config {
     
     // PORT
     public static boolean SHOW_ALL_PORTS = false;
+    public static boolean HI_IMPEDANCE_INTERPRETATION = false; //TODO
+    
 }

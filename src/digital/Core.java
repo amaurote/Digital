@@ -39,11 +39,11 @@ public class Core implements Runnable {
         Handler.init();
 
         //test
-        ComponentManager.addComponent(1, 3, 3);
-        ComponentManager.addComponent(2, 30, 9);
-        ComponentManager.addComponent(3, 100, 20);
-        ComponentManager.addComponent(4, 3, 40);
-        ComponentManager.addComponent(5, 65, 27);
+        ComponentManager.addDevice(1, 3, 3);
+        ComponentManager.addDevice(2, 30, 9);
+        ComponentManager.addDevice(3, 100, 20);
+        ComponentManager.addDevice(4, 3, 40);
+        ComponentManager.addDevice(5, 65, 27);
         
         ComponentManager.addWire(0, 0, 1, 1);
         ComponentManager.addWire(1, 0, 4, 1);

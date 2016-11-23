@@ -52,7 +52,7 @@ public class ComponentManager {
         }
     }
 
-    public static void addComponent(int type, int x, int y) {
+    public static void addDevice(int type, int x, int y) {
         switch (type) {
             case 1:
                 devices.add(new Generator(idCount++, x, y));
@@ -76,7 +76,7 @@ public class ComponentManager {
         wires.add(new Wire(outComponentId, outPortId, inComponentId, inPortId));
     }
 
-    public static Device getComponent(int id) {
+    public static Device getDevice(int id) {
         for (Device device : devices) {
             if (device.getID() == id) {
                 return device;
@@ -84,13 +84,9 @@ public class ComponentManager {
         }
         return null;
     }
-
-    public static Device getComponentByIndex(int index) {
-        if (index >= devices.size()) {
-            return null;
-        } else {
-            return devices.get(index);
-        }
+    
+    public static List<Device> getDeviceList() {
+        return devices;
     }
 
     public static List<Wire> getWireList() {

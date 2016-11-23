@@ -30,8 +30,8 @@ public class Wire {
         this.inComponentId = inComponentId;
         this.inPortId = inPortId;
 
-        leftEnd = ComponentManager.getComponent(outComponentId);
-        rightEnd = ComponentManager.getComponent(inComponentId);
+        leftEnd = ComponentManager.getDevice(outComponentId);
+        rightEnd = ComponentManager.getDevice(inComponentId);
     }
 
     public void update() {

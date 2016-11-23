@@ -138,17 +138,27 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_mainCanvasMouseDragged
 
     private void mainCanvasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseExited
+        // revert and deselect
         Handler.revertMove();
         Handler.deselect();
     }//GEN-LAST:event_mainCanvasMouseExited
 
     private void mainCanvasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseReleased
-        Handler.deselect();
+        // right mouse button
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            // revert and deselect
+            Handler.revertMove();
+            Handler.deselect();
+        } else {
+            // deselect
+            Handler.deselect();
+        }
     }//GEN-LAST:event_mainCanvasMouseReleased
 
     private void mainCanvasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMousePressed
         if (evt.getButton() == MouseEvent.BUTTON1) {
-            Handler.selectComponent(evt.getX(), evt.getY());
+            //Handler.selectComponent(evt.getX(), evt.getY());
+            Handler.findSomethingToSelect(evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_mainCanvasMousePressed
 

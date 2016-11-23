@@ -20,6 +20,10 @@ public class Input extends IOport {
 
     @Override
     public void update() {
+        if (!occupied) {
+            portState = Config.HI_IMPEDANCE_INTERPRETATION;
+        }
+
         // reset
         occupied = false;
     }

@@ -79,7 +79,11 @@ public abstract class IOport {
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
-
+    
+    public int getId() {
+        return id;
+    }
+    
     public boolean getState() {
         return portState;
     }
