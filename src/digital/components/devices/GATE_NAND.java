@@ -31,9 +31,9 @@ public class GATE_NAND extends Device {
         this.height = 6;
 
         // ports
-        output = new Output(0, x + width + 2, y + 3);
-        inputA = new Input(1, x - 1, y + 1);
-        inputB = new Input(1, x - 1, y + 5);
+        output = new Output(this, 0, x + width + 2, y + 3);
+        inputA = new Input(this, 1, x - 1, y + 1);
+        inputB = new Input(this, 1, x - 1, y + 5);
         devicePorts.add(output);
         devicePorts.add(inputA);
         devicePorts.add(inputB);     

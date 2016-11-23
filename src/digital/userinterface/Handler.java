@@ -4,6 +4,9 @@ import digital.Config;
 import digital.components.ComponentManager;
 import digital.components.devices.Device;
 import digital.components.parts.IOport;
+import digital.components.parts.Input;
+import digital.components.parts.Output;
+import digital.components.parts.Wire;
 
 /**
  *
@@ -11,74 +14,114 @@ import digital.components.parts.IOport;
  */
 public class Handler {
 
+    // in case of selected device
     private static Device selectedDevice;
+
+    // in case of selected port
     private static IOport selectedPort;
+    private static Wire wire = null;
 
-    //docasne asi neviem
-    private static int selectedDeviceId;
-    private static int selectedPortId;
-
+    // last position of moved device
     private static int lastX;
     private static int lastY;
+
+    // mouse offset (Device move only)
     private static int mouseOffsetX;
     private static int mouseOffsetY;
 
     public static void init() {
-        selectedDevice = null;
-        selectedPort = null;
-
-        //docasne
-        selectedDeviceId = -1;
-        selectedPortId = -1;
-
-        lastX = -1;
-        lastY = -1;
+        deselect();
     }
 
-    public static void findSomethingToSelect(int x, int y) {
-        x /= Config.GRID_SIZE;
-        y /= Config.GRID_SIZE;
-
+    public static Device findDevice(int x, int y) {
         for (int i = ComponentManager.getDeviceList().size() - 1; i >= 0; i--) {
             Device d = ComponentManager.getDeviceList().get(i);
 
-            // first check, if click is above port
+            if (d.getX() <= x && d.getY() <= y
+                    && d.getX() + d.getWidth() > x && d.getY() + d.getHeight() > y) {
+                System.out.printf("%d.%d | %s %d \n", x, y, d.getName(), d.getID());
+                return d;
+            }
+        }
+
+        return null;
+    }
+
+    public static IOport findPort(int x, int y) {
+        for (int i = ComponentManager.getDeviceList().size() - 1; i >= 0; i--) {
+            Device d = ComponentManager.getDeviceList().get(i);
+
             for (IOport port : d.getPortList()) {
                 if (x >= port.getConX() - 1 && x <= port.getConX()
                         && y >= port.getConY() - 1 && y <= port.getConY()) {
                     System.out.println(d.getID() + " " + d.getName() + " " + port.getId());
-                    selectedDeviceId = d.getID();
-                    selectedPortId = port.getId();
-                    return;
+                    selectedPort = port;
+                    selectedDevice = null;
+                    return port;
                 }
             }
+        }
 
-            // second check, if click is above component
-            if (d.getX() <= x && d.getY() <= y
-                    && d.getX() + d.getWidth() > x && d.getY() + d.getHeight() > y) {
-                System.out.printf("%d.%d | %s %d \n", x, y, d.getName(), d.getID());
-                selectedDevice = d;
-                selectedDeviceId = d.getID();
-                selectedPortId = -1;
-                return;
+        return null;
+    }
+
+    public static void findSomethingToSelect(int x, int y) {
+        // mouse coordinates translation
+        x /= Config.GRID_SIZE;
+        y /= Config.GRID_SIZE;
+
+        selectedDevice = findDevice(x, y);
+        selectedPort = findPort(x, y);
+
+        if (selectedDevice != null) {
+            selectedPort = null;
+        } else {
+            if (selectedPort != null) {
+                selectedDevice = null;
             }
         }
     }
 
-    public static void deselect() {
-        selectedDevice = null;
-        selectedDeviceId = -1;
-        selectedPortId = -1;
+    public static void mouseReleased(int x, int y) {
+        // mouse coordinates translation
+        x /= Config.GRID_SIZE;
+        y /= Config.GRID_SIZE;
 
+        if (selectedPort != null) {
+            IOport port = findPort(x, y);
+            if(port != null) {
+                if(port instanceof Input) {
+                    //wire.connect(port.getId()); <- TU SOM SKONCIL, ide sa prerabat..
+                } else {
+                    wire.revert();
+                }
+            }
+        }
+
+        deselect();
+    }
+
+    public static void deselect() {
+        // in case of selected device
+        selectedDevice = null;
+
+        // in case of selected port
+        selectedPort = null;
+        wire = null;
+
+        // last position of moved device
         lastX = -1;
         lastY = -1;
 
+        // mouse offset (Device move only)
         mouseOffsetX = 0;
         mouseOffsetY = 0;
     }
 
     public static void move(int x, int y) {
         if (selectedDevice != null) {
+
+            // device is selected
             if (lastX == -1 || lastY == -1) {
                 lastX = selectedDevice.getX();
                 lastY = selectedDevice.getY();
@@ -93,12 +136,36 @@ public class Handler {
             }
 
             selectedDevice.move(x - mouseOffsetX, y - mouseOffsetY);
+
+        } else {
+
+            // port is selected
+            if (selectedPort != null) {
+                if (selectedPort instanceof Input) {
+                    if (selectedPort.getConnectedWire() != null) {
+                        wire = selectedPort.getConnectedWire();
+                        selectedPort.disconnect();
+                    } else {
+                        wire.setRelPos(x, y);
+                    }
+                } else {
+                    if (selectedPort instanceof Output) {
+                        // TODO
+                    }
+                }
+            }
         }
     }
 
     public static void revertMove() {
         if (selectedDevice != null) {
             selectedDevice.move(lastX, lastY);
+            selectedDevice = null;
+        } else {
+            if (selectedPort != null) {
+                wire.revert();
+                wire = null;
+            }
         }
     }
 }

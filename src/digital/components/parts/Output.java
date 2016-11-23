@@ -1,5 +1,6 @@
 package digital.components.parts;
 
+import digital.components.devices.Device;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -9,8 +10,8 @@ import java.awt.Graphics;
  */
 public class Output extends IOport {
 
-    public Output(int id, int conX, int conY) {
-        super(id, conX, conY);
+    public Output(Device parent, int id, int conX, int conY) {
+        super(parent, id, conX, conY);
     }
 
     @Override

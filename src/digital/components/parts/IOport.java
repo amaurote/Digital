@@ -1,6 +1,7 @@
 package digital.components.parts;
 
 import digital.Config;
+import digital.components.devices.Device;
 import java.awt.Graphics;
 
 /**
@@ -11,7 +12,10 @@ public abstract class IOport {
 
     // port id
     private final int id;
-
+    
+    // parent device
+    private final Device parent;
+    
     // connection point
     private int conX, conY;
 
@@ -24,7 +28,8 @@ public abstract class IOport {
     // visibility
     protected boolean visible;
 
-    public IOport(int id, int conX, int conY) {
+    public IOport(Device parent, int id, int conX, int conY) {
+        this.parent = parent;
         this.id = id;
 
         this.conX = conX;
@@ -70,14 +75,27 @@ public abstract class IOport {
 
     public void setState(boolean state) {
         portState = state;
-    }
-
-    public void setOccupied() {
-        // used only by input
-    }
+    }  
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+    
+    public void connect(Wire wire) {
+        // used only by input
+    }
+    
+    public void disconnect() {
+        // used only by input
+    }
+    
+    public Wire getConnectedWire() {
+        // used only by input
+        return null;
+    }
+    
+    public Device getParent() {
+        return parent;
     }
     
     public int getId() {

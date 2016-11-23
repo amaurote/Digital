@@ -29,8 +29,8 @@ public class GATE_NOT extends Device {
         this.height = 6;
 
         // ports
-        output = new Output(0, x + width + 2, y + 3);
-        input = new Input(1, x - 1, y + 3);
+        output = new Output(this, 0, x + width + 2, y + 3);
+        input = new Input(this, 1, x - 1, y + 3);
         devicePorts.add(output);
         devicePorts.add(input);     
     }

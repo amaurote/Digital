@@ -6,6 +6,9 @@ import digital.components.devices.GATE_NOT;
 import digital.components.devices.Generator;
 import digital.components.devices.Monitor;
 import digital.components.devices.Oscillator;
+import digital.components.parts.IOport;
+import digital.components.parts.Input;
+import digital.components.parts.Output;
 import digital.components.parts.Wire;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -72,8 +75,8 @@ public class ComponentManager {
         }
     }
 
-    public static void addWire(int outComponentId, int outPortId, int inComponentId, int inPortId) {
-        wires.add(new Wire(outComponentId, outPortId, inComponentId, inPortId));
+    public static void addWire(IOport output, IOport input) {
+        wires.add(new Wire(output, input));
     }
 
     public static Device getDevice(int id) {

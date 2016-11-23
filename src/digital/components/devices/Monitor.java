@@ -29,7 +29,7 @@ public class Monitor extends Device {
         this.height = 6;
 
         // set input
-        input = new Input(0, x - 1, y + height / 2);
+        input = new Input(this, 0, x - 1, y + height / 2);
         devicePorts.add(input);
     }
 

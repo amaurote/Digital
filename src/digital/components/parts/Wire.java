@@ -13,47 +13,66 @@ import java.awt.Graphics;
 public class Wire {
 
     // from (left)
-    private int outComponentId;
-    private int outPortId;
-
-    Device leftEnd;
-
+    private Output output;
     // to (right)
-    private int inComponentId;
-    private int inPortId;
+    private Input input;
 
-    Device rightEnd;
+    // last input connected
+    private Input lastInput = null;
 
-    public Wire(int outComponentId, int outPortId, int inComponentId, int inPortId) {
-        this.outComponentId = outComponentId;
-        this.outPortId = outPortId;
-        this.inComponentId = inComponentId;
-        this.inPortId = inPortId;
+    // while moving
+    private boolean relativeState;
+    private int relPosX;
+    private int relPosY;
 
-        leftEnd = ComponentManager.getDevice(outComponentId);
-        rightEnd = ComponentManager.getDevice(inComponentId);
+    public Wire(IOport output, IOport input) {
+        this.output = (Output) output;
+
+        if (input != null) {
+            this.input = (Input) input;
+            relativeState = false;
+        } else {
+            relativeState = true;
+        }
     }
 
     public void update() {
-        if (leftEnd == null || rightEnd == null) {
-            removeWire();
-        } else if (leftEnd.getPort(outPortId) == null || rightEnd.getPort(inPortId) == null) {
-            removeWire();
-        } else {
-            rightEnd.getPort(inPortId).setState(leftEnd.getPort(outPortId).getState());
-            rightEnd.getPort(inPortId).setOccupied();
+        if (!relativeState) {
+            if (input.getParent() == null || output.getParent() == null) {
+                removeWire();
+            } else {
+                if (input == null || output == null) {
+                    removeWire();
+                } else {
+                    input.setState(output.getState());
+                    input.connect(this);
+                }
+            }
+
+            lastInput = (Input) input;
         }
     }
 
     public void render(Graphics g) {
+        // define variables
         int gs = Config.GRID_SIZE;
-        int lx = leftEnd.getPort(outPortId).getConX() * gs;
-        int ly = leftEnd.getPort(outPortId).getConY() * gs;
-        int rx = rightEnd.getPort(inPortId).getConX() * gs;
-        int ry = rightEnd.getPort(inPortId).getConY() * gs;
+        int lx, ly, rx, ry;
 
-        g.setColor((leftEnd.getPort(outPortId).getState()) ? Color.red : Color.blue);
+        lx = output.getConX() * gs;
+        ly = output.getConY() * gs;
 
+        if (relativeState) {
+            rx = relPosX;
+            ry = relPosY;
+        } else {
+            rx = input.getConX() * gs;
+            ry = input.getConY() * gs;
+        }
+
+        // choose color
+        g.setColor((output.getState()) ? Color.red : Color.blue);
+
+        // draw
         if (Config.WIRE_APPERANCE_WRAPPED) {
             int distance = rx - lx;
             g.drawLine(lx, ly, lx + distance / 2, ly);
@@ -66,5 +85,35 @@ public class Wire {
 
     public void removeWire() {
         ComponentManager.getWireList().remove(this);
+    }
+
+    public void setRelPos(int relPosX, int relPosY) {
+        relativeState = true;
+
+        this.relPosX = relPosX;
+        this.relPosY = relPosY;
+
+        if (input != null) {
+            input.disconnect();
+        }
+
+        input = null;
+    }
+
+    public void setRelativeState(boolean state) {
+        relativeState = state;
+    }
+
+    public void connect(Input input) {
+        this.input = input;
+        relativeState = false;
+    }
+
+    public void revert() {
+        if (lastInput != null) {
+            connect(lastInput);
+        } else {
+            removeWire();
+        }
     }
 }

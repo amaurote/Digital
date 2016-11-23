@@ -1,6 +1,7 @@
 package digital.components.parts;
 
 import digital.Config;
+import digital.components.devices.Device;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -10,22 +11,19 @@ import java.awt.Graphics;
  */
 public class Input extends IOport {
 
-    private boolean occupied;
+    private Wire connectedWire;
 
-    public Input(int id, int conX, int conY) {
-        super(id, conX, conY);
+    public Input(Device parent, int id, int conX, int conY) {
+        super(parent, id, conX, conY);
 
-        occupied = false;
+        connectedWire = null;
     }
 
     @Override
     public void update() {
-        if (!occupied) {
+        if (connectedWire == null) {
             portState = Config.HI_IMPEDANCE_INTERPRETATION;
         }
-
-        // reset
-        occupied = false;
     }
 
     @Override
@@ -35,8 +33,16 @@ public class Input extends IOport {
     }
 
     @Override
-    public void setOccupied() {
-        occupied = true;
+    public void connect(Wire wire) {
+        connectedWire = wire;
+    }
+    
+    public void disconnect() {
+        connectedWire = null;
+    }
+    
+    public Wire getConnectedWire() {
+        return connectedWire;
     }
 
 }

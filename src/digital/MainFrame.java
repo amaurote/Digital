@@ -150,8 +150,8 @@ public class MainFrame extends javax.swing.JFrame {
             Handler.revertMove();
             Handler.deselect();
         } else {
-            // deselect
-            Handler.deselect();
+            // just let it know
+            Handler.mouseReleased(evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_mainCanvasMouseReleased
 

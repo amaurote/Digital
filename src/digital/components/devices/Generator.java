@@ -33,7 +33,7 @@ public class Generator extends Device {
         this.height = 6;
 
         // set output
-        output = new Output(0, x + width + 1, y + height / 2);
+        output = new Output(this, 0, x + width + 1, y + height / 2);
         devicePorts.add(output);
         
         // set specParameterList and add some

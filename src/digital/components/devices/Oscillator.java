@@ -36,7 +36,7 @@ public class Oscillator extends Device {
         this.freq = 2;
 
         // set output
-        output = new Output(0, x + width + 1, y + height / 2);
+        output = new Output(this, 0, x + width + 1, y + height / 2);
         devicePorts.add(output);
 
         // add some specParameter
