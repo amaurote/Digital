@@ -38,8 +38,10 @@ public class Handler {
     public static void findSomethingToSelect(int x, int y) {
         x /= Config.GRID_SIZE;
         y /= Config.GRID_SIZE;
-        
-        for (Device d : ComponentManager.getDeviceList()) {
+
+        for (int i = ComponentManager.getDeviceList().size() - 1; i >= 0; i--) {
+            Device d = ComponentManager.getDeviceList().get(i);
+
             // first check, if click is above port
             for (IOport port : d.getPortList()) {
                 if (x >= port.getConX() - 1 && x <= port.getConX()
@@ -50,28 +52,27 @@ public class Handler {
                     return;
                 }
             }
- 
+
             // second check, if click is above component
             if (d.getX() <= x && d.getY() <= y
                     && d.getX() + d.getWidth() > x && d.getY() + d.getHeight() > y) {
-
                 System.out.printf("%d.%d | %s %d \n", x, y, d.getName(), d.getID());
                 selectedDevice = d;
                 selectedDeviceId = d.getID();
                 selectedPortId = -1;
                 return;
             }
-        }   
+        }
     }
 
     public static void deselect() {
         selectedDevice = null;
         selectedDeviceId = -1;
         selectedPortId = -1;
-        
+
         lastX = -1;
         lastY = -1;
-        
+
         mouseOffsetX = 0;
         mouseOffsetY = 0;
     }
