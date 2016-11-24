@@ -84,8 +84,7 @@
         <Property name="text" type="java.lang.String" value="Wrap Wires"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jToggleWrapWiresMouseClicked"/>
-        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jToggleWrapWiresMouseExited"/>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jToggleWrapWiresStateChanged"/>
       </Events>
     </Component>
   </SubComponents>

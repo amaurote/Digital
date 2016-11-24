@@ -87,11 +87,15 @@ public class Handler {
         x /= Config.GRID_SIZE;
         y /= Config.GRID_SIZE;
 
-        if (selectedPort != null) {
+        if (wire != null) {
             IOport port = findPort(x, y);
-            if(port != null) {
-                if(port instanceof Input) {
-                    wire.connect((Input)port);
+            if (port != null) {
+                if (port instanceof Input) {
+                    if (port.getConnectedWire() == null && wire != null) {
+                        wire.connect((Input) port);
+                    } else {
+                        wire.revert();
+                    }
                 } else {
                     wire.revert();
                 }
@@ -99,7 +103,7 @@ public class Handler {
                 wire.setRelativeState(false);
             }
         }
-         
+
         deselect();
     }
 
@@ -148,12 +152,21 @@ public class Handler {
                         wire = selectedPort.getConnectedWire();
                         selectedPort.disconnect();
                     } else {
-                        wire.setRelPos(x, y);
+                        if (wire != null) {
+                            wire.setRelPos(x, y);
+                        }
                     }
                 } else {
                     if (selectedPort instanceof Output) {
-                        // TODO
+                        wire = new Wire(selectedPort, null);
+                        ComponentManager.addWire(wire);
+                        wire.setRelPos(x, y);
+                        selectedPort = null;
                     }
+                }
+            } else {
+                if (wire != null) {
+                    wire.setRelPos(x, y);
                 }
             }
         }
@@ -163,11 +176,11 @@ public class Handler {
         if (selectedDevice != null) {
             selectedDevice.move(lastX, lastY);
             selectedDevice = null;
-        } else {
-            if (selectedPort != null) {
-                wire.revert();
-                wire = null;
-            }
+        }
+        
+        if (wire != null) {
+            wire.revert();
+            wire = null;
         }
     }
 }

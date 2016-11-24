@@ -91,12 +91,9 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jToggleWrapWires.setText("Wrap Wires");
-        jToggleWrapWires.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jToggleWrapWiresMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jToggleWrapWiresMouseExited(evt);
+        jToggleWrapWires.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jToggleWrapWiresStateChanged(evt);
             }
         });
 
@@ -162,10 +159,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mainCanvasMousePressed
 
-    private void jToggleWrapWiresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleWrapWiresMouseClicked
-        Config.WIRE_APPERANCE_WRAPPED = jToggleWrapWires.isSelected();
-    }//GEN-LAST:event_jToggleWrapWiresMouseClicked
-
     private void jButtonShowIOMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonShowIOMousePressed
         Config.SHOW_ALL_PORTS = true;
     }//GEN-LAST:event_jButtonShowIOMousePressed
@@ -174,9 +167,9 @@ public class MainFrame extends javax.swing.JFrame {
         Config.SHOW_ALL_PORTS = false;
     }//GEN-LAST:event_jButtonShowIOMouseReleased
 
-    private void jToggleWrapWiresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleWrapWiresMouseExited
+    private void jToggleWrapWiresStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jToggleWrapWiresStateChanged
         Config.WIRE_APPERANCE_WRAPPED = jToggleWrapWires.isSelected();
-    }//GEN-LAST:event_jToggleWrapWiresMouseExited
+    }//GEN-LAST:event_jToggleWrapWiresStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonShowIO;

@@ -78,6 +78,10 @@ public class ComponentManager {
     public static void addWire(IOport output, IOport input) {
         wires.add(new Wire(output, input));
     }
+    
+    public static void addWire(Wire wire) {
+        wires.add(wire);
+    }
 
     public static Device getDevice(int id) {
         for (Device device : devices) {

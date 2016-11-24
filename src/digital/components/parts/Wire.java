@@ -38,15 +38,12 @@ public class Wire {
 
     public void update() {
         if (!relativeState) {
-            if (input.getParent() == null || output.getParent() == null) {
+            if (output.getParent() == null || input.getParent() == null
+                    || output == null || input == null) {
                 removeWire();
             } else {
-                if (input == null || output == null) {
-                    removeWire();
-                } else {
-                    input.setState(output.getState());
-                    input.connect(this);
-                }
+                input.setState(output.getState());
+                input.connect(this);
             }
 
             lastInput = (Input) input;
@@ -67,6 +64,7 @@ public class Wire {
         } else {
             rx = input.getConX() * gs;
             ry = input.getConY() * gs;
+            
         }
 
         // choose color
@@ -102,6 +100,12 @@ public class Wire {
 
     public void setRelativeState(boolean state) {
         relativeState = state;
+        
+        if(!relativeState) {
+            if(input == null) {
+                removeWire();
+            }
+        }
     }
 
     public void connect(Input input) {
