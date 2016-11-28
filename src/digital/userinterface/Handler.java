@@ -78,7 +78,7 @@ public class Handler {
 
     }
 
-    public static void selectDevices(Point a, Point b) {
+    private static void selectDevices(Point a, Point b) {
         int xLeft = (int) ((a.getX() < b.getX()) ? a.getX() : b.getX());
         int xRight = (int) ((a.getX() > b.getX()) ? a.getX() : b.getX());
         int yUp = (int) ((a.getY() < b.getY()) ? a.getY() : b.getY());
@@ -95,7 +95,7 @@ public class Handler {
 
     }
 
-    public static Device findDevice(int x, int y) {
+    private static Device findDevice(int x, int y) {
         for (int i = ComponentManager.getDeviceList().size() - 1; i >= 0; i--) {
             Device d = ComponentManager.getDeviceList().get(i);
 
@@ -109,7 +109,7 @@ public class Handler {
         return null;
     }
 
-    public static IOport findPort(int x, int y) {
+    private static IOport findPort(int x, int y) {
         for (int i = ComponentManager.getDeviceList().size() - 1; i >= 0; i--) {
             Device d = ComponentManager.getDeviceList().get(i);
 
