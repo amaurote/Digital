@@ -7,6 +7,9 @@ import digital.components.parts.IOport;
 import digital.components.parts.Input;
 import digital.components.parts.Output;
 import digital.components.parts.Wire;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,19 +24,20 @@ public class Handler {
 
     // in case of selected port
     private static IOport selectedPort;
-    private static Wire wire = null;
+    private static Wire wire;
 
     // selected component type
-    private static enum SELECTED {
+    public static enum SELECTED {
         NOTHING, DEVICE, PORT, WIRE;
     }
 
-    private static SELECTED selected;
-    
-    private static int selectAreaStartX;
-    private static int selectAreaStartY;
-    
-    // mouse offset (for Device move only)
+    public static SELECTED selected;
+
+    // mouse select area
+    private static Point selectAreaA;
+    private static Point selectAreaB;
+
+    // mouse offset (for Device only)
     private static int mouseOffsetX;
     private static int mouseOffsetY;
 
@@ -41,6 +45,8 @@ public class Handler {
     // INITIALIZATION
     public static void init() {
         selectedDevices = new ArrayList<>();
+        selectAreaA = new Point(0, 0);
+        selectAreaB = new Point(0, 0);
         deselect();
     }
 
@@ -48,6 +54,42 @@ public class Handler {
         for (Device device : selectedDevices) {
             device.setSelect(true);
         }
+    }
+
+    public static void render(Graphics g) {
+        if (selectAreaA.getX() != selectAreaB.getX()
+                && selectAreaA.getY() != selectAreaB.getY()) {
+
+            int x, y, width, height;
+
+            width = (int) Math.abs(selectAreaA.getX() - selectAreaB.getX());
+            height = (int) Math.abs(selectAreaA.getY() - selectAreaB.getY());
+            x = (int) (selectAreaA.getX() < selectAreaB.getX()
+                    ? selectAreaA.getX() : selectAreaB.getX());
+            y = (int) (selectAreaA.getY() < selectAreaB.getY()
+                    ? selectAreaA.getY() : selectAreaB.getY());
+
+            g.setColor(Color.blue);
+            g.drawRect(x, y, width, height);
+        }
+
+    }
+
+    public static void selectDevices(Point a, Point b) {
+        int xLeft = (int) ((a.getX() < b.getX()) ? a.getX() : b.getX());
+        int xRight = (int) ((a.getX() > b.getX()) ? a.getX() : b.getX());
+        int yUp = (int) ((a.getY() < b.getY()) ? a.getY() : b.getY());
+        int yDown = (int) ((a.getY() > b.getY()) ? a.getY() : b.getY());
+
+        for (Device device : ComponentManager.getDeviceList()) {
+            int x = device.getX() * Config.GRID_SIZE;
+            int y = device.getY() * Config.GRID_SIZE;
+            if (x > xLeft && x < xRight && y > yUp && y < yDown) {
+                selectedDevices.add(device);
+                System.out.println("GOTCHA!");
+            }
+        }
+
     }
 
     public static Device findDevice(int x, int y) {
@@ -100,7 +142,6 @@ public class Handler {
                 if (selectedPort != null) {
                     selected = SELECTED.PORT;
                     wire = selectedPort.getConnectedWire();
-                    selectedDevice = null;
                 }
             }
         }
@@ -133,7 +174,13 @@ public class Handler {
             }
         }
 
-        deselect();
+        if (selected == SELECTED.NOTHING) {
+            selectDevices(selectAreaA, selectAreaB);
+            selectAreaA.setLocation(0, 0);
+            selectAreaB.setLocation(0, 0);
+        } else {
+            deselect();
+        }
     }
 
     public static void deselect() {
@@ -159,6 +206,7 @@ public class Handler {
         // SELECTED DEVICE/S
         if (selected == SELECTED.DEVICE) {
 
+            // mouse coordinates translation
             x /= Config.GRID_SIZE;
             y /= Config.GRID_SIZE;
 
@@ -195,10 +243,15 @@ public class Handler {
                     }
                 }
             } else {
-                
+
                 // SELECTED NOTHING
-                if(selected == SELECTED.NOTHING) {
-                    
+                if (selected == SELECTED.NOTHING) {
+                    deselect();
+                    if (selectAreaA.getX() == 0 && selectAreaA.getY() == 0) {
+                        selectAreaA.setLocation(x, y);
+                    } else {
+                        selectAreaB.setLocation(x, y);
+                    }
                 }
             }
 

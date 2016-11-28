@@ -138,6 +138,7 @@ public class Core implements Runnable {
         g.clearRect(0, 0, mainFrame.getCanvas().getWidth(), mainFrame.getCanvas().getHeight());
         drawGrid(g);
         ComponentManager.render(g);
+        Handler.render(g);
 
         // end drawing
         bs.show();
