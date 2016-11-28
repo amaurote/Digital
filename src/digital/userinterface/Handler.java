@@ -7,6 +7,8 @@ import digital.components.parts.IOport;
 import digital.components.parts.Input;
 import digital.components.parts.Output;
 import digital.components.parts.Wire;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,23 +16,35 @@ import digital.components.parts.Wire;
  */
 public class Handler {
 
-    // in case of selected device
-    private static Device selectedDevice;
+    // in case of selected device/s
+    private static List<Device> selectedDevices;
 
     // in case of selected port
     private static IOport selectedPort;
     private static Wire wire = null;
 
-    // last position of moved device
-    private static int lastX;
-    private static int lastY;
+    // selected component type
+    private static enum SELECTED {
+        NOTHING, DEVICE, PORT, WIRE;
+    }
+
+    private static SELECTED selected;
 
     // mouse offset (Device move only)
     private static int mouseOffsetX;
     private static int mouseOffsetY;
 
+    ////////////////////////////////////////////////////////////////////////////
+    // INITIALIZATION
     public static void init() {
+        selectedDevices = new ArrayList<>();
         deselect();
+    }
+
+    public static void update() {
+        for (Device device : selectedDevices) {
+            device.setSelect(true);
+        }
     }
 
     public static Device findDevice(int x, int y) {
@@ -54,9 +68,8 @@ public class Handler {
             for (IOport port : d.getPortList()) {
                 if (x >= port.getConX() - 1 && x <= port.getConX()
                         && y >= port.getConY() - 1 && y <= port.getConY()) {
-                    System.out.println(d.getID() + " " + d.getName() + " " + port.getId());
+                    System.out.println(d.getID() + " " + d.getName());
                     selectedPort = port;
-                    selectedDevice = null;
                     return port;
                 }
             }
@@ -70,16 +83,33 @@ public class Handler {
         x /= Config.GRID_SIZE;
         y /= Config.GRID_SIZE;
 
-        selectedDevice = findDevice(x, y);
+        Device selectedDevice = findDevice(x, y);
         selectedPort = findPort(x, y);
 
-        if (selectedDevice != null) {
-            selectedPort = null;
-        } else {
-            if (selectedPort != null) {
-                selectedDevice = null;
+        if (selected == SELECTED.NOTHING) {
+            if (selectedDevice != null) {
+                selected = SELECTED.DEVICE;
+                selectedDevices.add(selectedDevice);
+                selectedDevice.updateLastPosition();
+
+                selectedPort = null;
+            } else {
+                if (selectedPort != null) {
+                    selected = SELECTED.PORT;
+                    wire = selectedPort.getConnectedWire();
+                    selectedDevice = null;
+                }
             }
         }
+    }
+
+    public static void mouseClick(int x, int y) {
+        // mouse coordinates translation
+        x /= Config.GRID_SIZE;
+        y /= Config.GRID_SIZE;
+
+        // TODO deselect, unless CTRL is not pushed
+        deselect();
     }
 
     public static void mouseReleased(int x, int y) {
@@ -87,15 +117,11 @@ public class Handler {
         x /= Config.GRID_SIZE;
         y /= Config.GRID_SIZE;
 
-        if (wire != null) {
+        if (selected == SELECTED.WIRE && wire != null) {
             IOport port = findPort(x, y);
             if (port != null) {
-                if (port instanceof Input) {
-                    if (port.getConnectedWire() == null && wire != null) {
-                        wire.connect((Input) port);
-                    } else {
-                        wire.revert();
-                    }
+                if (port instanceof Input && port.getConnectedWire() == null) {
+                    wire.connect((Input) port);
                 } else {
                     wire.revert();
                 }
@@ -109,15 +135,17 @@ public class Handler {
 
     public static void deselect() {
         // in case of selected device
-        selectedDevice = null;
+        for (Device device : selectedDevices) {
+            device.setSelect(false);
+            device.updateLastPosition();
+        }
+        selectedDevices.clear();
 
         // in case of selected port
         selectedPort = null;
         wire = null;
 
-        // last position of moved device
-        lastX = -1;
-        lastY = -1;
+        selected = SELECTED.NOTHING;
 
         // mouse offset (Device move only)
         mouseOffsetX = 0;
@@ -125,59 +153,59 @@ public class Handler {
     }
 
     public static void move(int x, int y) {
-        if (selectedDevice != null) {
-
-            // device is selected
-            if (lastX == -1 || lastY == -1) {
-                lastX = selectedDevice.getX();
-                lastY = selectedDevice.getY();
-            }
+        // SELECTED DEVICE/S
+        if (selected == SELECTED.DEVICE) {
 
             x /= Config.GRID_SIZE;
             y /= Config.GRID_SIZE;
 
-            if (mouseOffsetX == 0 || mouseOffsetY == 0) {
-                mouseOffsetX = x - selectedDevice.getX();
-                mouseOffsetY = y - selectedDevice.getY();
+            for (Device device : selectedDevices) {
+                if (mouseOffsetX == 0 || mouseOffsetY == 0) {
+                    mouseOffsetX = x - device.getX();
+                    mouseOffsetY = y - device.getY();
+                }
+                device.move(x - mouseOffsetX, y - mouseOffsetY);
             }
-
-            selectedDevice.move(x - mouseOffsetX, y - mouseOffsetY);
 
         } else {
 
-            // port is selected
-            if (selectedPort != null) {
+            // SELECTED PORT
+            if (selected == SELECTED.PORT && selectedPort != null) {
+                // move wire if there is some
                 if (selectedPort instanceof Input) {
                     if (selectedPort.getConnectedWire() != null) {
                         wire = selectedPort.getConnectedWire();
+
                         selectedPort.disconnect();
-                    } else {
-                        if (wire != null) {
-                            wire.setRelPos(x, y);
-                        }
+                        selectedPort = null;
+
+                        selected = SELECTED.WIRE;
                     }
                 } else {
+                    // create new wire
                     if (selectedPort instanceof Output) {
                         wire = new Wire(selectedPort, null);
                         ComponentManager.addWire(wire);
                         wire.setRelPos(x, y);
                         selectedPort = null;
+                        selected = SELECTED.WIRE;
                     }
                 }
-            } else {
-                if (wire != null) {
-                    wire.setRelPos(x, y);
-                }
             }
+
+            // SELECTED WIRE
+            if (selected == SELECTED.WIRE && wire != null) {
+                wire.setRelPos(x, y);
+            }
+
         }
     }
 
     public static void revertMove() {
-        if (selectedDevice != null) {
-            selectedDevice.move(lastX, lastY);
-            selectedDevice = null;
+        for (Device device : selectedDevices) {
+            device.revertPosition();
         }
-        
+
         if (wire != null) {
             wire.revert();
             wire = null;

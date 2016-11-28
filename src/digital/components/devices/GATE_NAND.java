@@ -64,7 +64,7 @@ public class GATE_NAND extends Device {
         g.fillOval(width * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
 
         // outlines
-        g.setColor(Color.BLACK);
+        g.setColor((selected) ? Color.BLUE :Color.BLACK);
         g.drawRect(0, 0, width * gs, height * gs);
         g.drawRect(-1 * gs, 0 * gs, 1 * gs, 2 * gs);
         g.drawRect(-1 * gs, 4 * gs, 1 * gs, 2 * gs);

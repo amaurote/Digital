@@ -61,7 +61,7 @@ public class GATE_NOT extends Device {
         g.fillOval(width * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);
 
         // outlines
-        g.setColor(Color.BLACK);
+        g.setColor((selected) ? Color.BLUE :Color.BLACK);
         g.drawPolygon(xpoints, ypoints, 3);
         g.drawRect(-1 * gs, 2 * gs, 1 * gs, 2 * gs);
         g.drawOval(width * gs, 2 * gs + 1, 2 * gs - 2, 2 * gs - 2);

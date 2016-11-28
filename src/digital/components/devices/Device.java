@@ -17,8 +17,10 @@ public abstract class Device {
     //id, position, size, name
     protected int id;
     protected int x, y;
+    private int lastX, lastY;
     protected int width, height; // width and height are useful to determine selectable area
     protected String name;
+    protected boolean selected = false;
 
     // Special Parameters List
     protected final List<ComponentSpecialParameter> specParameterList = new ArrayList<>();
@@ -67,6 +69,15 @@ public abstract class Device {
             }
         }
     }
+    
+    public void updateLastPosition() {
+        lastX = x;
+        lastY = y;
+    }
+    
+    public void revertPosition() {
+        move(lastX, lastY);
+    }
 
     public int getID() {
         return id;
@@ -102,6 +113,10 @@ public abstract class Device {
 
     public String getName() {
         return name;
+    }
+    
+    public void setSelect(boolean selected) {
+        this.selected = selected;
     }
 
 }

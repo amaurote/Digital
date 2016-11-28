@@ -63,7 +63,7 @@ public class Generator extends Device {
         g.fillRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
 
         // outlines
-        g.setColor(Color.BLACK);
+        g.setColor((selected) ? Color.BLUE :Color.BLACK);
         g.drawRect(0, 0, width * Config.GRID_SIZE, height * Config.GRID_SIZE);
         g.drawRect(6 * Config.GRID_SIZE, 2 * Config.GRID_SIZE, 1 * Config.GRID_SIZE, 2 * Config.GRID_SIZE);
 

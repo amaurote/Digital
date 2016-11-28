@@ -9,10 +9,7 @@ import java.awt.Graphics;
  * @author AMAUROTE
  */
 public abstract class IOport {
-
-    // port id
-    private final int id;
-    
+   
     // parent device
     private final Device parent;
     
@@ -30,7 +27,6 @@ public abstract class IOport {
 
     public IOport(Device parent, int id, int conX, int conY) {
         this.parent = parent;
-        this.id = id;
 
         this.conX = conX;
         this.conY = conY;
@@ -96,10 +92,6 @@ public abstract class IOport {
     
     public Device getParent() {
         return parent;
-    }
-    
-    public int getId() {
-        return id;
     }
     
     public boolean getState() {

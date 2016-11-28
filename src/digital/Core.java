@@ -122,6 +122,7 @@ public class Core implements Runnable {
 
     private void update() {
         ComponentManager.update();
+        Handler.update();
     }
 
     private void render() {
