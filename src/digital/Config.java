@@ -18,4 +18,7 @@ public class Config {
     public static boolean SHOW_ALL_PORTS = false;
     public static boolean HI_IMPEDANCE_INTERPRETATION = false; //TODO
     
+    // UI
+    public static boolean HOLD_CTRL = false;
+    
 }

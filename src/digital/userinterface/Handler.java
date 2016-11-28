@@ -20,6 +20,9 @@ import java.util.List;
 public class Handler {
 
     // in case of selected device/s
+    // TODO zrusit list, a pytat sa rovno komponentov ci su oznacene
+    // TODO ctrl = do not deselect devices
+    // TODO device musi mat PIVOT kvoli oznacovaniu, ale este neviem
     private static List<Device> selectedDevices;
 
     // in case of selected port
@@ -151,8 +154,9 @@ public class Handler {
         // mouse coordinates translation
         x /= Config.GRID_SIZE;
         y /= Config.GRID_SIZE;
-
-        // TODO deselect, unless CTRL is not pushed
+        
+        //TODO click select
+        
         deselect();
     }
 
@@ -249,6 +253,7 @@ public class Handler {
                     deselect();
                     if (selectAreaA.getX() == 0 && selectAreaA.getY() == 0) {
                         selectAreaA.setLocation(x, y);
+                        selectAreaB.setLocation(x, y);
                     } else {
                         selectAreaB.setLocation(x, y);
                     }
@@ -259,7 +264,6 @@ public class Handler {
             if (selected == SELECTED.WIRE && wire != null) {
                 wire.setRelPos(x, y);
             }
-
         }
     }
 

@@ -14,12 +14,14 @@ import java.util.List;
  */
 public abstract class Device {
 
-    //id, position, size, name
+    // id, position, size, name
     protected int id;
     protected int x, y;
-    private int lastX, lastY;
-    protected int width, height; // width and height are useful to determine selectable area
+    private int lastX, lastY;   
+    protected int width, height; // width and height are useful to determine selectable area    
     protected String name;
+    
+    // selected
     protected boolean selected = false;
 
     // Special Parameters List
