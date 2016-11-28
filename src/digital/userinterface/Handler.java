@@ -29,8 +29,11 @@ public class Handler {
     }
 
     private static SELECTED selected;
-
-    // mouse offset (Device move only)
+    
+    private static int selectAreaStartX;
+    private static int selectAreaStartY;
+    
+    // mouse offset (for Device move only)
     private static int mouseOffsetX;
     private static int mouseOffsetY;
 
@@ -190,6 +193,12 @@ public class Handler {
                         selectedPort = null;
                         selected = SELECTED.WIRE;
                     }
+                }
+            } else {
+                
+                // SELECTED NOTHING
+                if(selected == SELECTED.NOTHING) {
+                    
                 }
             }
 
