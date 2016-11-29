@@ -19,12 +19,10 @@ import java.util.List;
  */
 public class Handler {
 
-    // in case of selected device/s
-    // TODO zrusit list, a pytat sa rovno komponentov ci su oznacene
+    // TODO prerobit move
     // TODO ctrl = do not deselect devices
-    // TODO device musi mat PIVOT kvoli oznacovaniu, ale este neviem
-    private static List<Device> selectedDevices;
-
+    // TODO 2 corner pointy diagonalne od seba na kazdom device koli oznacovaniu
+    
     // in case of selected port
     private static IOport selectedPort;
     private static Wire wire;
@@ -47,16 +45,13 @@ public class Handler {
     ////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     public static void init() {
-        selectedDevices = new ArrayList<>();
         selectAreaA = new Point(0, 0);
         selectAreaB = new Point(0, 0);
         deselect();
     }
 
     public static void update() {
-        for (Device device : selectedDevices) {
-            device.setSelect(true);
-        }
+
     }
 
     public static void render(Graphics g) {
@@ -88,7 +83,7 @@ public class Handler {
             int x = device.getX() * Config.GRID_SIZE;
             int y = device.getY() * Config.GRID_SIZE;
             if (x > xLeft && x < xRight && y > yUp && y < yDown) {
-                selectedDevices.add(device);
+                device.setSelect(true);
                 System.out.println("GOTCHA!");
             }
         }
@@ -137,7 +132,7 @@ public class Handler {
         if (selected == SELECTED.NOTHING) {
             if (selectedDevice != null) {
                 selected = SELECTED.DEVICE;
-                selectedDevices.add(selectedDevice);
+                selectedDevice.setSelect(true);
                 selectedDevice.updateLastPosition();
 
                 selectedPort = null;
@@ -154,9 +149,8 @@ public class Handler {
         // mouse coordinates translation
         x /= Config.GRID_SIZE;
         y /= Config.GRID_SIZE;
-        
+
         //TODO click select
-        
         deselect();
     }
 
@@ -189,11 +183,10 @@ public class Handler {
 
     public static void deselect() {
         // in case of selected device
-        for (Device device : selectedDevices) {
+        for (Device device : ComponentManager.getDeviceList()) {
             device.setSelect(false);
             device.updateLastPosition();
         }
-        selectedDevices.clear();
 
         // in case of selected port
         selectedPort = null;
@@ -214,12 +207,14 @@ public class Handler {
             x /= Config.GRID_SIZE;
             y /= Config.GRID_SIZE;
 
-            for (Device device : selectedDevices) {
-                if (mouseOffsetX == 0 || mouseOffsetY == 0) {
-                    mouseOffsetX = x - device.getX();
-                    mouseOffsetY = y - device.getY();
+            for (Device device : ComponentManager.getDeviceList()) {
+                if (device.isSelected()) {
+                    if (mouseOffsetX == 0 || mouseOffsetY == 0) {
+                        mouseOffsetX = x - device.getX();
+                        mouseOffsetY = y - device.getY();
+                    }
+                    device.move(x - mouseOffsetX, y - mouseOffsetY);
                 }
-                device.move(x - mouseOffsetX, y - mouseOffsetY);
             }
 
         } else {
@@ -268,7 +263,7 @@ public class Handler {
     }
 
     public static void revertMove() {
-        for (Device device : selectedDevices) {
+        for (Device device : ComponentManager.getDeviceList()) {
             device.revertPosition();
         }
 

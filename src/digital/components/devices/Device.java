@@ -120,5 +120,9 @@ public abstract class Device {
     public void setSelect(boolean selected) {
         this.selected = selected;
     }
+    
+    public boolean isSelected() {
+        return selected;
+    }
 
 }
