@@ -2,6 +2,7 @@ package digital;
 
 import digital.userinterface.Handler;
 import java.awt.Canvas;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /**
@@ -45,6 +46,10 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
     }
+    
+    public void update() {
+        this.requestFocus();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -58,6 +63,14 @@ public class MainFrame extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setName("MainFrame"); // NOI18N
         setResizable(false);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
 
         mainCanvas.setName("mainCanvas"); // NOI18N
         mainCanvas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -81,6 +94,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jButtonShowIO.setText("IO");
+        jButtonShowIO.setFocusable(false);
         jButtonShowIO.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jButtonShowIOMousePressed(evt);
@@ -91,6 +105,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jToggleWrapWires.setText("Wrap Wires");
+        jToggleWrapWires.setFocusable(false);
         jToggleWrapWires.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jToggleWrapWiresStateChanged(evt);
@@ -156,7 +171,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void mainCanvasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMousePressed
         if (evt.getButton() == MouseEvent.BUTTON1) {
-            //Handler.selectComponent(evt.getX(), evt.getY());
             Handler.findSomethingToSelect(evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_mainCanvasMousePressed
@@ -172,6 +186,16 @@ public class MainFrame extends javax.swing.JFrame {
     private void jToggleWrapWiresStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jToggleWrapWiresStateChanged
         Config.WIRE_APPERANCE_WRAPPED = jToggleWrapWires.isSelected();
     }//GEN-LAST:event_jToggleWrapWiresStateChanged
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_CONTROL) {
+            Config.HOLD_CTRL = true;
+        }
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+            Config.HOLD_CTRL = false;
+    }//GEN-LAST:event_formKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonShowIO;

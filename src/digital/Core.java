@@ -124,6 +124,7 @@ public class Core implements Runnable {
     private void update() {
         ComponentManager.update();
         Handler.update();
+        mainFrame.update();
     }
 
     private void render() {

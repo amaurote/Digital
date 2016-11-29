@@ -10,8 +10,6 @@ import digital.components.parts.Wire;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -20,8 +18,7 @@ import java.util.List;
 public class Handler {
 
     // TODO prerobit move
-    // TODO ctrl = do not deselect devices
-    // TODO 2 corner pointy diagonalne od seba na kazdom device koli oznacovaniu
+    // TODO pivot na device koli oznacovaniu
     
     // in case of selected port
     private static IOport selectedPort;
@@ -75,16 +72,20 @@ public class Handler {
 
     private static void selectDevices(Point a, Point b) {
         int xLeft = (int) ((a.getX() < b.getX()) ? a.getX() : b.getX());
-        int xRight = (int) ((a.getX() > b.getX()) ? a.getX() : b.getX());
         int yUp = (int) ((a.getY() < b.getY()) ? a.getY() : b.getY());
+        
+        int xRight = (int) ((a.getX() > b.getX()) ? a.getX() : b.getX());
         int yDown = (int) ((a.getY() > b.getY()) ? a.getY() : b.getY());
 
         for (Device device : ComponentManager.getDeviceList()) {
             int x = device.getX() * Config.GRID_SIZE;
             int y = device.getY() * Config.GRID_SIZE;
-            if (x > xLeft && x < xRight && y > yUp && y < yDown) {
+            int _x = device.getX() + device.getWidth() * Config.GRID_SIZE;
+            int _y = device.getY() + device.getHeight() * Config.GRID_SIZE;
+            
+            if ((xLeft < x && yUp < y && xRight > x && yDown > y)
+                    || (xLeft < _x && yUp < _y && xRight > _x && yDown > _y)){
                 device.setSelect(true);
-                System.out.println("GOTCHA!");
             }
         }
 
@@ -184,8 +185,10 @@ public class Handler {
     public static void deselect() {
         // in case of selected device
         for (Device device : ComponentManager.getDeviceList()) {
-            device.setSelect(false);
             device.updateLastPosition();
+            if (!Config.HOLD_CTRL) {
+                device.setSelect(false);
+            }
         }
 
         // in case of selected port

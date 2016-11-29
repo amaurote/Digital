@@ -5,6 +5,7 @@ import digital.components.parts.IOport;
 import digital.components.parts.Input;
 import digital.components.parts.Output;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +18,10 @@ public abstract class Device {
     // id, position, size, name
     protected int id;
     protected int x, y;
-    private int lastX, lastY;   
+    private int lastX, lastY;
     protected int width, height; // width and height are useful to determine selectable area    
     protected String name;
-    
+
     // selected
     protected boolean selected = false;
 
@@ -66,17 +67,19 @@ public abstract class Device {
                 if (devicePort instanceof Input) {
                     devicePort.setVisible(visible);
                 }
-            } else if (devicePort instanceof Output) {
-                devicePort.setVisible(visible);
+            } else {
+                if (devicePort instanceof Output) {
+                    devicePort.setVisible(visible);
+                }
             }
         }
     }
-    
+
     public void updateLastPosition() {
         lastX = x;
         lastY = y;
     }
-    
+
     public void revertPosition() {
         move(lastX, lastY);
     }
@@ -104,7 +107,7 @@ public abstract class Device {
     public IOport getPort(int id) {
         return null;
     }
-    
+
     public List<IOport> getPortList() {
         return devicePorts;
     }
@@ -116,13 +119,12 @@ public abstract class Device {
     public String getName() {
         return name;
     }
-    
+
     public void setSelect(boolean selected) {
         this.selected = selected;
     }
-    
+
     public boolean isSelected() {
         return selected;
     }
-
 }
