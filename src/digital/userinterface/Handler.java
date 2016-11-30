@@ -17,9 +17,8 @@ import java.awt.Point;
  */
 public class Handler {
 
-    // TODO dokoncit click na oznacenie
-    // TODO do clicku dat odznacenie namiesto mouseRelease
-    // TODO zamedzit posuvaniu device ked dojde na hranu Canvas
+    ////////////////////////////////////////////////////////////////////////////
+    // VARIABLES
     // in case of selected port
     private static IOport selectedPort;
     private static Wire wire;
@@ -54,6 +53,8 @@ public class Handler {
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // TIMING    
     public static void update() {
 
     }
