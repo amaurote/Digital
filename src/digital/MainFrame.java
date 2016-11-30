@@ -45,6 +45,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        mainCanvas.setSize(Config.CANVAS_HORIZONTAL, Config.CANVAS_VERTICAL);
     }
     
     public void update() {

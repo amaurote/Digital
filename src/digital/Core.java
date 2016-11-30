@@ -36,7 +36,6 @@ public class Core implements Runnable {
 
     private void init() {
         ComponentManager.init();
-        Handler.init();
 
         //test
         ComponentManager.addDevice(1, 3, 3);
@@ -50,6 +49,10 @@ public class Core implements Runnable {
         ComponentManager.addWire(ComponentManager.getDevice(1).getPort(0), ComponentManager.getDevice(4).getPort(1));
         ComponentManager.addWire(ComponentManager.getDevice(3).getPort(0), ComponentManager.getDevice(4).getPort(2));
         ComponentManager.addWire(ComponentManager.getDevice(4).getPort(0), ComponentManager.getDevice(2).getPort(1));
+    
+        Handler.init();
+    
+    
     }
 
     public synchronized void start() {

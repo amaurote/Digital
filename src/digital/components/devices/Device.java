@@ -5,7 +5,6 @@ import digital.components.parts.IOport;
 import digital.components.parts.Input;
 import digital.components.parts.Output;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,8 @@ public abstract class Device {
     // id, position, size, name
     protected int id;
     protected int x, y;
-    private int lastX, lastY;
+    private int lastX;
+    private int lastY;
     protected int width, height; // width and height are useful to determine selectable area    
     protected String name;
 
@@ -51,6 +51,7 @@ public abstract class Device {
             devicePort.move(devicePort.getConX() - (this.x - x),
                     devicePort.getConY() - (this.y - y));
         }
+
         this.x = x;
         this.y = y;
     }
@@ -96,6 +97,14 @@ public abstract class Device {
         return y;
     }
 
+    public int getLastX() {
+        return lastX;
+    }
+
+    public int getLastY() {
+        return lastY;
+    }
+
     public int getWidth() {
         return width;
     }
@@ -118,6 +127,14 @@ public abstract class Device {
 
     public String getName() {
         return name;
+    }
+
+    public int getPivotX() {
+        return x + width / 2;
+    }
+
+    public int getPivotY() {
+        return y + height / 2;
     }
 
     public void setSelect(boolean selected) {

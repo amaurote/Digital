@@ -17,8 +17,8 @@ import java.awt.Point;
  */
 public class Handler {
 
-    // TODO prerobit move
-    // TODO pivot na device koli oznacovaniu
+    // TODO dokoncit click na oznacenie
+    // TODO zamedzit posuvaniu device ked dojde na hranu Canvas
     
     // in case of selected port
     private static IOport selectedPort;
@@ -35,16 +35,23 @@ public class Handler {
     private static Point selectAreaA;
     private static Point selectAreaB;
 
-    // mouse offset (for Device only)
-    private static int mouseOffsetX;
-    private static int mouseOffsetY;
+    // mouse last position
+    private static int mouseLastX;
+    private static int mouseLastY;
 
     ////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     public static void init() {
         selectAreaA = new Point(0, 0);
         selectAreaB = new Point(0, 0);
-        deselect();
+        mouseLastX = -1;
+        mouseLastY = -1;
+        deselect();     
+        
+        // test
+        for (Device device : ComponentManager.getDeviceList()) {
+            System.out.println(device.getLastX() + " " + device.getLastY());
+        }   
     }
 
     public static void update() {
@@ -52,6 +59,7 @@ public class Handler {
     }
 
     public static void render(Graphics g) {
+        // render select rectangle
         if (selectAreaA.getX() != selectAreaB.getX()
                 && selectAreaA.getY() != selectAreaB.getY()) {
 
@@ -67,24 +75,19 @@ public class Handler {
             g.setColor(Color.blue);
             g.drawRect(x, y, width, height);
         }
-
     }
 
     private static void selectDevices(Point a, Point b) {
         int xLeft = (int) ((a.getX() < b.getX()) ? a.getX() : b.getX());
         int yUp = (int) ((a.getY() < b.getY()) ? a.getY() : b.getY());
-        
         int xRight = (int) ((a.getX() > b.getX()) ? a.getX() : b.getX());
         int yDown = (int) ((a.getY() > b.getY()) ? a.getY() : b.getY());
 
         for (Device device : ComponentManager.getDeviceList()) {
-            int x = device.getX() * Config.GRID_SIZE;
-            int y = device.getY() * Config.GRID_SIZE;
-            int _x = device.getX() + device.getWidth() * Config.GRID_SIZE;
-            int _y = device.getY() + device.getHeight() * Config.GRID_SIZE;
-            
-            if ((xLeft < x && yUp < y && xRight > x && yDown > y)
-                    || (xLeft < _x && yUp < _y && xRight > _x && yDown > _y)){
+            int x = device.getPivotX() * Config.GRID_SIZE;
+            int y = device.getPivotY() * Config.GRID_SIZE;
+
+            if ((xLeft < x && yUp < y && xRight > x && yDown > y)) {
                 device.setSelect(true);
             }
         }
@@ -180,10 +183,13 @@ public class Handler {
         } else {
             deselect();
         }
+
+        // reset last mouse position
+        mouseLastX = -1;
+        mouseLastY = -1;
     }
 
     public static void deselect() {
-        // in case of selected device
         for (Device device : ComponentManager.getDeviceList()) {
             device.updateLastPosition();
             if (!Config.HOLD_CTRL) {
@@ -196,10 +202,6 @@ public class Handler {
         wire = null;
 
         selected = SELECTED.NOTHING;
-
-        // mouse offset (Device move only)
-        mouseOffsetX = 0;
-        mouseOffsetY = 0;
     }
 
     public static void move(int x, int y) {
@@ -210,13 +212,16 @@ public class Handler {
             x /= Config.GRID_SIZE;
             y /= Config.GRID_SIZE;
 
+            if (mouseLastX == -1 || mouseLastY == -1) {
+                mouseLastX = x;
+                mouseLastY = y;
+            }
+
             for (Device device : ComponentManager.getDeviceList()) {
                 if (device.isSelected()) {
-                    if (mouseOffsetX == 0 || mouseOffsetY == 0) {
-                        mouseOffsetX = x - device.getX();
-                        mouseOffsetY = y - device.getY();
-                    }
-                    device.move(x - mouseOffsetX, y - mouseOffsetY);
+
+                    device.move(x - mouseLastX + device.getLastX(),
+                            y - mouseLastY + device.getLastY());
                 }
             }
 

@@ -11,6 +11,10 @@ public class Config {
     
     public static final int FPS = 120;
     
+    // CANVAS
+    public static int CANVAS_HORIZONTAL = 601;
+    public static int CANVAS_VERTICAL = 401;
+    
     // WIRE
     public static boolean WIRE_APPERANCE_WRAPPED = false;
     
