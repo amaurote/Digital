@@ -147,15 +147,17 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_mainCanvasMouseClicked
 
     private void mainCanvasMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseDragged
-        Handler.move(evt.getX(), evt.getY());
+        Handler.mouseMove(evt.getX(), evt.getY());
     }//GEN-LAST:event_mainCanvasMouseDragged
 
     private void mainCanvasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseExited
         // revert and deselect
+        /*
         if (Handler.selected != Handler.SELECTED.NOTHING) {
             Handler.revertMove();
             Handler.deselect();
         }
+        */
     }//GEN-LAST:event_mainCanvasMouseExited
 
     private void mainCanvasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseReleased
@@ -172,7 +174,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void mainCanvasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMousePressed
         if (evt.getButton() == MouseEvent.BUTTON1) {
-            Handler.findSomethingToSelect(evt.getX(), evt.getY());
+            Handler.mouseDown(evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_mainCanvasMousePressed
 

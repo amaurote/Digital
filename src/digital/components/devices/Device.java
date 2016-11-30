@@ -1,5 +1,6 @@
 package digital.components.devices;
 
+import digital.Config;
 import digital.components.ComponentSpecialParameter;
 import digital.components.parts.IOport;
 import digital.components.parts.Input;
@@ -14,12 +15,14 @@ import java.util.List;
  */
 public abstract class Device {
 
+    ////////////////////////////////////////////////////////////////////////////
+    // VARIABLES
     // id, position, size, name
     protected int id;
     protected int x, y;
     private int lastX;
     private int lastY;
-    protected int width, height; // width and height are useful to determine selectable area    
+    protected int width, height;  
     protected String name;
 
     // selected
@@ -31,6 +34,8 @@ public abstract class Device {
     // List of IOports
     protected final List<IOport> devicePorts = new ArrayList<>();
 
+    ////////////////////////////////////////////////////////////////////////////
+    // TIMING
     public void update() {
         for (IOport devicePort : devicePorts) {
             devicePort.update();
@@ -46,6 +51,8 @@ public abstract class Device {
     public void timer_1ms() {
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // MOVEMENT METHODS
     public void move(int x, int y) {
         for (IOport devicePort : devicePorts) {
             devicePort.move(devicePort.getConX() - (this.x - x),
@@ -54,8 +61,32 @@ public abstract class Device {
 
         this.x = x;
         this.y = y;
+
+        if (x < 0) {
+            move(0, y);
+        }
+        if (y < 0) {
+            move(x, 0);
+        }
+        if (x + width > Config.CANVAS_HORIZONTAL / Config.GRID_SIZE) {
+            move(Config.CANVAS_HORIZONTAL / Config.GRID_SIZE - width, y);
+        }
+        if (y + height > Config.CANVAS_VERTICAL / Config.GRID_SIZE) {
+            move(x, Config.CANVAS_VERTICAL / Config.GRID_SIZE - height);
+        }
     }
 
+    public void updateLastPosition() {
+        lastX = x;
+        lastY = y;
+    }
+
+    public void revertPosition() {
+        move(lastX, lastY);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // DISPLAY PORTS
     public void displayPorts(boolean allPortsVisible) {
         for (IOport devicePort : devicePorts) {
             devicePort.setVisible(allPortsVisible);
@@ -76,15 +107,8 @@ public abstract class Device {
         }
     }
 
-    public void updateLastPosition() {
-        lastX = x;
-        lastY = y;
-    }
-
-    public void revertPosition() {
-        move(lastX, lastY);
-    }
-
+    ////////////////////////////////////////////////////////////////////////////
+    // GETTERS / SETTERS
     public int getID() {
         return id;
     }
@@ -113,22 +137,6 @@ public abstract class Device {
         return height;
     }
 
-    public IOport getPort(int id) {
-        return null;
-    }
-
-    public List<IOport> getPortList() {
-        return devicePorts;
-    }
-
-    public List<ComponentSpecialParameter> getSpecParametersList() {
-        return specParameterList;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public int getPivotX() {
         return x + width / 2;
     }
@@ -137,11 +145,27 @@ public abstract class Device {
         return y + height / 2;
     }
 
-    public void setSelect(boolean selected) {
-        this.selected = selected;
+    public String getName() {
+        return name;
     }
 
     public boolean isSelected() {
         return selected;
+    }
+
+    public List<ComponentSpecialParameter> getSpecParametersList() {
+        return specParameterList;
+    }
+
+    public List<IOport> getPortList() {
+        return devicePorts;
+    }
+
+    public IOport getPort(int id) {
+        return null;
+    }
+
+    public void setSelect(boolean selected) {
+        this.selected = selected;
     }
 }

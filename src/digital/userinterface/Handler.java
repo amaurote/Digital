@@ -20,7 +20,6 @@ public class Handler {
     // TODO dokoncit click na oznacenie
     // TODO do clicku dat odznacenie namiesto mouseRelease
     // TODO zamedzit posuvaniu device ked dojde na hranu Canvas
-    
     // in case of selected port
     private static IOport selectedPort;
     private static Wire wire;
@@ -33,8 +32,8 @@ public class Handler {
     public static SELECTED selected;
 
     // mouse select area
-    private static Point selectAreaA;
-    private static Point selectAreaB;
+    private static Point selectAreaPointA;
+    private static Point selectAreaPointB;
 
     // mouse last position
     private static int mouseLastX;
@@ -43,16 +42,16 @@ public class Handler {
     ////////////////////////////////////////////////////////////////////////////
     // INITIALIZATION
     public static void init() {
-        selectAreaA = new Point(0, 0);
-        selectAreaB = new Point(0, 0);
+        selectAreaPointA = new Point(0, 0);
+        selectAreaPointB = new Point(0, 0);
         mouseLastX = -1;
         mouseLastY = -1;
-        deselect();     
-        
+        deselect();
+
         // test
         for (Device device : ComponentManager.getDeviceList()) {
             System.out.println(device.getLastX() + " " + device.getLastY());
-        }   
+        }
     }
 
     public static void update() {
@@ -61,23 +60,25 @@ public class Handler {
 
     public static void render(Graphics g) {
         // render select rectangle
-        if (selectAreaA.getX() != selectAreaB.getX()
-                && selectAreaA.getY() != selectAreaB.getY()) {
+        if (selectAreaPointA.getX() != selectAreaPointB.getX()
+                && selectAreaPointA.getY() != selectAreaPointB.getY()) {
 
             int x, y, width, height;
 
-            width = (int) Math.abs(selectAreaA.getX() - selectAreaB.getX());
-            height = (int) Math.abs(selectAreaA.getY() - selectAreaB.getY());
-            x = (int) (selectAreaA.getX() < selectAreaB.getX()
-                    ? selectAreaA.getX() : selectAreaB.getX());
-            y = (int) (selectAreaA.getY() < selectAreaB.getY()
-                    ? selectAreaA.getY() : selectAreaB.getY());
+            width = (int) Math.abs(selectAreaPointA.getX() - selectAreaPointB.getX());
+            height = (int) Math.abs(selectAreaPointA.getY() - selectAreaPointB.getY());
+            x = (int) (selectAreaPointA.getX() < selectAreaPointB.getX()
+                    ? selectAreaPointA.getX() : selectAreaPointB.getX());
+            y = (int) (selectAreaPointA.getY() < selectAreaPointB.getY()
+                    ? selectAreaPointA.getY() : selectAreaPointB.getY());
 
             g.setColor(Color.blue);
             g.drawRect(x, y, width, height);
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // SELECT
     private static void selectDevices(Point a, Point b) {
         int xLeft = (int) ((a.getX() < b.getX()) ? a.getX() : b.getX());
         int yUp = (int) ((a.getY() < b.getY()) ? a.getY() : b.getY());
@@ -92,9 +93,37 @@ public class Handler {
                 device.setSelect(true);
             }
         }
-
     }
 
+    private static int getSelectedDevicesCount() {
+        int count = 0;
+
+        for (Device device : ComponentManager.getDeviceList()) {
+            if (device.isSelected()) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public static void deselect() {
+        // deselect devices
+        for (Device device : ComponentManager.getDeviceList()) {
+            if (!Config.HOLD_CTRL) {
+                device.setSelect(false);
+            }
+        }
+
+        // in case of selected port
+        selectedPort = null;
+        wire = null;
+
+        selected = SELECTED.NOTHING;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // FIND SOMETHING AT X Y
     private static Device findDevice(int x, int y) {
         for (int i = ComponentManager.getDeviceList().size() - 1; i >= 0; i--) {
             Device d = ComponentManager.getDeviceList().get(i);
@@ -126,7 +155,9 @@ public class Handler {
         return null;
     }
 
-    public static void findSomethingToSelect(int x, int y) {
+    ////////////////////////////////////////////////////////////////////////////
+    // MOUSE EVENTS
+    public static void mouseDown(int x, int y) {
         // mouse coordinates translation
         x /= Config.GRID_SIZE;
         y /= Config.GRID_SIZE;
@@ -157,12 +188,25 @@ public class Handler {
 
         //TODO click select
         deselect();
+
+        Device device = findDevice(x, y);
+        if (device != null) {
+            device.setSelect(true);
+        }
     }
 
     public static void mouseReleased(int x, int y) {
         // mouse coordinates translation
         x /= Config.GRID_SIZE;
         y /= Config.GRID_SIZE;
+
+        // reset last mouse and device position
+        updatePositions();
+
+        // if there is only one selected device, then deselect
+        if (getSelectedDevicesCount() == 1) {
+            deselect();
+        }
 
         if (selected == SELECTED.WIRE && wire != null) {
             IOport port = findPort(x, y);
@@ -177,35 +221,18 @@ public class Handler {
             }
         }
 
-        if (selected == SELECTED.NOTHING) {
-            selectDevices(selectAreaA, selectAreaB);
-            selectAreaA.setLocation(0, 0);
-            selectAreaB.setLocation(0, 0);
-        } else {
+        if (selected != SELECTED.DEVICE) {
             deselect();
         }
 
-        // reset last mouse position
-        mouseLastX = -1;
-        mouseLastY = -1;
-    }
-
-    public static void deselect() {
-        for (Device device : ComponentManager.getDeviceList()) {
-            device.updateLastPosition();
-            if (!Config.HOLD_CTRL) {
-                device.setSelect(false);
-            }
+        if (selected == SELECTED.NOTHING) {
+            selectDevices(selectAreaPointA, selectAreaPointB);
+            selectAreaPointA.setLocation(0, 0);
+            selectAreaPointB.setLocation(0, 0);
         }
-
-        // in case of selected port
-        selectedPort = null;
-        wire = null;
-
-        selected = SELECTED.NOTHING;
     }
 
-    public static void move(int x, int y) {
+    public static void mouseMove(int x, int y) {
         // SELECTED DEVICE/S
         if (selected == SELECTED.DEVICE) {
 
@@ -220,7 +247,6 @@ public class Handler {
 
             for (Device device : ComponentManager.getDeviceList()) {
                 if (device.isSelected()) {
-
                     device.move(x - mouseLastX + device.getLastX(),
                             y - mouseLastY + device.getLastY());
                 }
@@ -255,11 +281,11 @@ public class Handler {
                 // SELECTED NOTHING
                 if (selected == SELECTED.NOTHING) {
                     deselect();
-                    if (selectAreaA.getX() == 0 && selectAreaA.getY() == 0) {
-                        selectAreaA.setLocation(x, y);
-                        selectAreaB.setLocation(x, y);
+                    if (selectAreaPointA.getX() == 0 && selectAreaPointA.getY() == 0) {
+                        selectAreaPointA.setLocation(x, y);
+                        selectAreaPointB.setLocation(x, y);
                     } else {
-                        selectAreaB.setLocation(x, y);
+                        selectAreaPointB.setLocation(x, y);
                     }
                 }
             }
@@ -271,6 +297,8 @@ public class Handler {
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // MOVE AND POSITIONS
     public static void revertMove() {
         for (Device device : ComponentManager.getDeviceList()) {
             device.revertPosition();
@@ -280,5 +308,14 @@ public class Handler {
             wire.revert();
             wire = null;
         }
+    }
+
+    private static void updatePositions() {
+        for (Device device : ComponentManager.getDeviceList()) {
+            device.updateLastPosition();
+        }
+
+        mouseLastX = -1;
+        mouseLastY = -1;
     }
 }

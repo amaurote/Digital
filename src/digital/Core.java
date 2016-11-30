@@ -44,7 +44,7 @@ public class Core implements Runnable {
         ComponentManager.addDevice(4, 3, 40);
         ComponentManager.addDevice(5, 65, 27);
         ComponentManager.addDevice(5, 27, 65);
-        
+        //test
         ComponentManager.addWire(ComponentManager.getDevice(0).getPort(0), ComponentManager.getDevice(1).getPort(1));
         ComponentManager.addWire(ComponentManager.getDevice(1).getPort(0), ComponentManager.getDevice(4).getPort(1));
         ComponentManager.addWire(ComponentManager.getDevice(3).getPort(0), ComponentManager.getDevice(4).getPort(2));
