@@ -33,7 +33,7 @@ public class Oscillator extends Device {
         this.width = 6;
         this.height = 6;
 
-        this.freq = 2;
+        this.freq = 1;
 
         // set output
         output = new Output(this, 0, x + width + 1, y + height / 2);
@@ -80,7 +80,7 @@ public class Oscillator extends Device {
     @Override
     public void timer_1ms() {
         // output switch state
-        if (++counter >= 1000 / freq) {
+        if (++counter >= 1000 / (freq * 2)) {
             output.switchState();
             counter = 0;
         }

@@ -1,5 +1,6 @@
 package digital;
 
+import digital.components.ComponentManager;
 import digital.userinterface.Handler;
 import java.awt.Canvas;
 import java.awt.event.KeyEvent;
@@ -46,8 +47,9 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         mainCanvas.setSize(Config.CANVAS_HORIZONTAL, Config.CANVAS_VERTICAL);
+        //this.setSize(Config.FRAME_HORIZONTAL, Config.FRAME_VERTICAL);
     }
-    
+
     public void update() {
         this.requestFocus();
     }
@@ -59,11 +61,15 @@ public class MainFrame extends javax.swing.JFrame {
         mainCanvas = new java.awt.Canvas();
         jButtonShowIO = new javax.swing.JButton();
         jToggleWrapWires = new javax.swing.JToggleButton();
+        jScrollPaneDevices = new javax.swing.JScrollPane();
+        jListDevices = new javax.swing.JList<>();
+        jButtonAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
         setName("MainFrame"); // NOI18N
         setResizable(false);
+        setSize(new java.awt.Dimension(764, 459));
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -113,6 +119,24 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jScrollPaneDevices.setFocusable(false);
+
+        jListDevices.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Generator", "Oscilator", "Monitor", " ", "Gate NOT", "Gate NAND" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jListDevices.setSelectedIndex(0);
+        jScrollPaneDevices.setViewportView(jListDevices);
+
+        jButtonAdd.setText("Add");
+        jButtonAdd.setFocusable(false);
+        jButtonAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAddMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,22 +145,35 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(mainCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPaneDevices, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonAdd)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonShowIO)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jToggleWrapWires, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(mainCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(153, Short.MAX_VALUE))
+                        .addComponent(jToggleWrapWires, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonShowIO)
                     .addComponent(jToggleWrapWires))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPaneDevices, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAdd))
+                    .addComponent(mainCanvas, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,7 +194,7 @@ public class MainFrame extends javax.swing.JFrame {
             Handler.revertMove();
             Handler.deselect();
         }
-        */
+         */
     }//GEN-LAST:event_mainCanvasMouseExited
 
     private void mainCanvasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainCanvasMouseReleased
@@ -191,17 +228,44 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleWrapWiresStateChanged
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_CONTROL) {
+        if (evt.getKeyCode() == KeyEvent.VK_CONTROL) {
             Config.HOLD_CTRL = true;
         }
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-            Config.HOLD_CTRL = false;
+        Config.HOLD_CTRL = false;
     }//GEN-LAST:event_formKeyReleased
 
+    private void jButtonAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddMouseClicked
+
+        int x = Config.CANVAS_HORIZONTAL / 2 / Config.GRID_SIZE;
+        int y = Config.CANVAS_VERTICAL / 2 / Config.GRID_SIZE;
+        switch (jListDevices.getSelectedIndex()) {
+
+            case 0:
+                ComponentManager.addDevice(1, x, y);
+                break;
+            case 1:
+                ComponentManager.addDevice(2, x, y);
+                break;
+            case 2:
+                ComponentManager.addDevice(3, x, y);
+                break;
+            case 4:
+                ComponentManager.addDevice(4, x, y);
+                break;
+            case 5:
+                ComponentManager.addDevice(5, x, y);
+                break;
+        }
+    }//GEN-LAST:event_jButtonAddMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAdd;
     private javax.swing.JButton jButtonShowIO;
+    private javax.swing.JList<String> jListDevices;
+    private javax.swing.JScrollPane jScrollPaneDevices;
     private javax.swing.JToggleButton jToggleWrapWires;
     private java.awt.Canvas mainCanvas;
     // End of variables declaration//GEN-END:variables

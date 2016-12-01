@@ -61,13 +61,13 @@ public class ComponentManager {
                 devices.add(new Generator(idCount++, x, y));
                 break;
             case 2:
-                devices.add(new GATE_NOT(idCount++, x, y));
+                devices.add(new Oscillator(idCount++, x, y));
                 break;
             case 3:
                 devices.add(new Monitor(idCount++, x, y));
                 break;
             case 4:
-                devices.add(new Oscillator(idCount++, x, y));
+                devices.add(new GATE_NOT(idCount++, x, y));
                 break;
             case 5:
                 devices.add(new GATE_NAND(idCount++, x, y));
@@ -78,7 +78,7 @@ public class ComponentManager {
     public static void addWire(IOport output, IOport input) {
         wires.add(new Wire(output, input));
     }
-    
+
     public static void addWire(Wire wire) {
         wires.add(wire);
     }
@@ -91,7 +91,7 @@ public class ComponentManager {
         }
         return null;
     }
-    
+
     public static List<Device> getDeviceList() {
         return devices;
     }
